@@ -17,6 +17,7 @@ import de.grabelus.adoptme.MainActivity
 import de.grabelus.adoptme.databinding.ActivityLoginBinding
 
 import de.grabelus.adoptme.R
+import de.grabelus.adoptme.ui.register.RegisterFragment
 
 class LoginActivity : AppCompatActivity() {
 
@@ -29,10 +30,11 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.username
+        val email = binding.email
         val password = binding.password
         val login = binding.loginButton
         val loading = binding.loginLoading
+        val registerLink = binding.registerLink
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -44,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
             login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+                email.error = getString(loginState.usernameError)
             }
             if (loginState.passwordError != null) {
                 password.error = getString(loginState.passwordError)
@@ -67,9 +69,9 @@ class LoginActivity : AppCompatActivity() {
             finish()
         })
 
-        username.afterTextChanged {
+        email.afterTextChanged {
             loginViewModel.loginDataChanged(
-                username.text.toString(),
+                email.text.toString(),
                 password.text.toString()
             )
         }
@@ -77,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
         password.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                    username.text.toString(),
+                    email.text.toString(),
                     password.text.toString()
                 )
             }
@@ -86,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                            username.text.toString(),
+                            email.text.toString(),
                             password.text.toString()
                         )
                 }
@@ -95,7 +97,11 @@ class LoginActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.login(email.text.toString(), password.text.toString())
+            }
+
+            registerLink.setOnClickListener {
+                supportFragmentManager.beginTransaction().replace(R.id.loginContainer, RegisterFragment()).commit()
             }
         }
     }
