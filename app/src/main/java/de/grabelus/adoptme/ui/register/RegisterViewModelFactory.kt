@@ -1,4 +1,4 @@
-package de.grabelus.adoptme.ui.login
+package de.grabelus.adoptme.ui.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -6,16 +6,12 @@ import de.grabelus.adoptme.data.UserDataSource
 import de.grabelus.adoptme.data.UserRepository
 import de.grabelus.adoptme.data.UserService
 
-/**
- * ViewModel provider factory to instantiate LoginViewModel.
- * Required given LoginViewModel has a non-empty constructor
- */
-class LoginViewModelFactory : ViewModelProvider.Factory {
+class RegisterViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(
+        if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
+            return RegisterViewModel(
                 userService = UserService(
                     userRepository = UserRepository(dataSource = UserDataSource()
                     )

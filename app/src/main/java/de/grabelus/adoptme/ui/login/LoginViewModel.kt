@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import de.grabelus.adoptme.data.UserRepository
 import de.grabelus.adoptme.data.Result
 
 import de.grabelus.adoptme.R
+import de.grabelus.adoptme.data.UserService
 
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+class LoginViewModel(private val userService: UserService) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -19,11 +19,11 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     fun login(username: String, password: String) {
         // can be launched in a separate asynchronous job
-        val result = userRepository.login(username, password)
+        val result = userService.login(username, password)
 
         if (result is Result.Success) {
             _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+                LoginResult(success = LoggedInUserView(displayName = result.data.username))
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }
@@ -39,7 +39,6 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    // A placeholder username validation check
     private fun isUserNameValid(username: String): Boolean {
         return if (username.contains('@')) {
             Patterns.EMAIL_ADDRESS.matcher(username).matches()
@@ -48,7 +47,6 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
