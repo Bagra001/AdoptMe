@@ -1,6 +1,8 @@
 package de.grabelus.adoptme.data
 
 import de.grabelus.adoptme.data.model.LoggedInUser
+import de.grabelus.adoptme.data.model.RegisterUserData
+import de.grabelus.adoptme.ui.register.RegisterResult
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -20,6 +22,10 @@ class UserRepository(val dataSource: UserDataSource) {
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
         user = null
+    }
+
+    fun register(registerUserData: RegisterUserData): Result<RegisterResult> {
+        return dataSource.register(registerUserData)
     }
 
     fun logout() {
