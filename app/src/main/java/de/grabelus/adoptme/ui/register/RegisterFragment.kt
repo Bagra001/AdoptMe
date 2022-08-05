@@ -56,6 +56,7 @@ class RegisterFragment : Fragment() {
                     return@Observer
                 }
                 registerButton.isEnabled = registerFormState.isDataValid
+                registerButton.alpha = if(registerButton.isEnabled) 1f else 0.25f
                 registerFormState.emailError?.let {
                     email.error = getString(it)
                 }

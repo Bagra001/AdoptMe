@@ -5,117 +5,177 @@
     android:id="@+id/loginContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/brandPurple"
+    android:background="@drawable/gradient"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.login.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/verticalLoginLayout"
-        android:background="@color/brandPurple"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        tools:layout_editor_absoluteX="-14dp"
-        tools:layout_editor_absoluteY="-16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/logoImageView"
-            android:layout_width="264dp"
-            android:layout_height="264dp"
-            android:background="@color/brandPurple"
-            android:scaleType="fitCenter"
-            android:layout_marginTop="80dp"
-            tools:layout_editor_absoluteX="73dp"
-            tools:layout_editor_absoluteY="58dp"
-            android:src="@mipmap/ic_adopt_me_logo_foreground"
-            android:contentDescription="@string/loginbrandlogo" />
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:contentDescription="@string/loginbrandlogo"
+            android:elevation="5dp"
+            android:src="@mipmap/ic_adopt_me_logo"
+            android:layout_centerHorizontal="true"
+            app:civ_border_width="0dp" />
 
-        <EditText
-            android:id="@+id/email"
+        <LinearLayout
+            android:id="@+id/verticalLoginLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="24dp"
-            android:autofillHints="@string/prompt_email"
-            android:backgroundTint="@color/brandOrange"
-            android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:minHeight="48dp"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/brandGrey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/logoImageView" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/rounded_corners"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="-14dp"
+            tools:layout_editor_absoluteY="-16dp">
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:autofillHints="@string/prompt_password"
-            android:backgroundTint="@color/brandOrange"
-            android:hint="@string/prompt_password"
-            android:imeActionLabel="@string/action_sign_in_short"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:minHeight="48dp"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/brandGrey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="125dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints="@string/prompt_email"
+                android:backgroundTint="@color/brandOrange"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/brandPurple"
+                android:textColorHint="@color/brandGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/logoImageView" />
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginBottom="64dp"
-            android:enabled="false"
-            android:text="@string/action_sign_in"
-            android:textColor="@color/brandPurple"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
-            app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            app:layout_constraintVertical_bias="0.2" />
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints="@string/prompt_password"
+                android:backgroundTint="@color/brandOrange"
+                android:hint="@string/prompt_password"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/brandPurple"
+                android:textColorHint="@color/brandGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username" />
 
-        <TextView
-            android:id="@+id/registerLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:minHeight="48dp"
-            android:text="@string/register_now"
-            android:textAlignment="center"
-            android:textColor="#A1887F" />
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="5dp"
+                android:alpha="0.5"
+                android:backgroundTint="@color/brandGold"
+                android:enabled="false"
+                android:text="@string/action_sign_in"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
+                app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
+                app:layout_constraintTop_toBottomOf="@+id/password"
+                app:layout_constraintVertical_bias="0.2" />
 
-        <ProgressBar
-            android:id="@+id/loginLoading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="0dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/verticalLoginLayout"
-            app:layout_constraintEnd_toEndOf="@+id/registerLink"
-            app:layout_constraintStart_toStartOf="@+id/registerLink"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="13dp"
+                    android:background="@color/brandGrey" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/white"
+                    android:padding="3dp"
+                    android:text="or"
+                    android:textColor="@color/brandGrey" />
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="10dp"
+                android:alpha="1"
+                android:backgroundTint="@color/brandGold"
+                android:enabled="false"
+                android:text="@string/action_register"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
+                app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
+                app:layout_constraintTop_toBottomOf="@+id/password"
+                app:layout_constraintVertical_bias="0.2" />
+
+            <ImageView
+                android:id="@+id/google_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/google_signin" />
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="13sp"
+                android:layout_marginTop="10dp" />
+
+            <ProgressBar
+                android:id="@+id/loginLoading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/verticalLoginLayout"
+                app:layout_constraintEnd_toEndOf="@+id/facebook_login_button"
+                app:layout_constraintStart_toStartOf="@+id/registerLink"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

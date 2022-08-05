@@ -15,7 +15,7 @@
     <string name="brand">adoptMe</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_username">Username</string>
+    <string name="prompt_name">For- and Surname</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_repeat_password">Repeat password</string>
     <string name="action_sign_in">Sign in</string>
@@ -33,4 +33,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="registration_failed">"Registration failed"</string>
     <string name="something_went_wrong">"Something went wrong"</string>
+    <string name="com_facebook_loginview_log_out_button">Sign in with Facebook</string>
+    <string name="com_facebook_loginview_log_in_button">Sign in with Facebook</string>
+    <string name="com_facebook_loginview_log_in_button_long">Sign in with Facebook</string>
 </resources>

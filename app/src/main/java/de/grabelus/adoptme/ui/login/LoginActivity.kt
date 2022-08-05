@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.loginButton
         val loading = binding.loginLoading
-        val registerLink = binding.registerLink
+        val registerButton = binding.registerButton
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -44,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
 
             // disable login button unless both username / password is valid
             login.isEnabled = loginState.isDataValid
+            login.alpha = if(login.isEnabled) 1f else 0.25f
 
             if (loginState.usernameError != null) {
                 email.error = getString(loginState.usernameError)
@@ -100,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
                 loginViewModel.login(email.text.toString(), password.text.toString())
             }
 
-            registerLink.setOnClickListener {
+            registerButton.setOnClickListener {
                 supportFragmentManager.beginTransaction().replace(R.id.loginContainer, RegisterFragment()).commit()
             }
         }
