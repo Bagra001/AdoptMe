@@ -22,7 +22,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Register</string>
     <string name="action_register_short">Register</string>
-    <string name="register_text">Register here and show me that life is still\nworth for me</string>
+    <string name="register_text">Register and show me \n that life is still worth</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be > 6 characters</string>

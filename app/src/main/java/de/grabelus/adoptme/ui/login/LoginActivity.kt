@@ -42,16 +42,14 @@ class LoginActivity : AppCompatActivity() {
 
         facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
 
-        facebookButton.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                if (event?.action == MotionEvent.ACTION_UP) {
-                    facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
-                } else if (event?.action == MotionEvent.ACTION_DOWN) {
-                    facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_button_background_color_pressed));
-                }
-                return false
+        facebookButton.setOnTouchListener { v, event ->
+            if (event?.action == MotionEvent.ACTION_UP) {
+                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+            } else if (event?.action == MotionEvent.ACTION_DOWN) {
+                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_button_background_color_pressed));
             }
-        });
+            false
+        };
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
