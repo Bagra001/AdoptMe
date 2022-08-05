@@ -55,7 +55,7 @@ class RegisterViewModel(private val userService: UserService) : ViewModel() {
             _registerForm.value = RegisterFormState(
                     repeatedPasswordError = R.string.not_same_password
                 )
-        } else if (password.isNotEmpty() && repeatedPassword.isNotEmpty() && !passwordSame) {
+        } else if (password.isNotEmpty() && repeatedPassword.isNotEmpty() && passwordSame) {
             _registerForm.value = RegisterFormState(
                 repeatedPasswordError = null
             )
