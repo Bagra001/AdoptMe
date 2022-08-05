@@ -10,21 +10,19 @@
     <string name="profile_content">Profile</string>
 
     <string name="menu_home">Home</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="brand">adoptMe</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_name">For- and Surname</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_repeat_password">Repeat password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="action_register">Register</string>
-    <string name="action_register_short">Register</string>
+    <string name="action_register">Sign up</string>
+    <string name="action_register_short">Sign up</string>
     <string name="register_text">Register and show me \n that life is still worth</string>
     <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_name">Not a valid for- and surname</string>
+    <string name="invalid_email">Not a valid email</string>
     <string name="invalid_password">Password must be > 6 characters</string>
     <string name="not_same_password">Passwords must be the same</string>
     <string name="login_failed">"Login failed"</string>

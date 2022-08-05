@@ -25,8 +25,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/logoImageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/loginbrandlogo"
             android:elevation="5dp"
@@ -37,7 +37,7 @@
             android:id="@+id/verticalLoginLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/rounded_corners"
             android:gravity="center_horizontal"
             android:orientation="vertical"
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginEnd="24dp"
                 android:alpha="0.8"
                 android:autofillHints="@string/prompt_name"
@@ -126,13 +126,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/password" />
 
+            <TextView
+                android:id="@+id/registerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="@string/register_text"
+                android:textAlignment="center"
+                android:textColor="@color/brandOrange"
+                android:textSize="20sp" />
+
             <Button
                 android:id="@+id/register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="14dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
                 android:width="150dp"
                 android:alpha="0.25"
                 android:backgroundTint="@color/brandGold"
@@ -146,15 +156,44 @@
                 app:layout_constraintTop_toBottomOf="@+id/repeatedPassword"
                 app:layout_constraintVertical_bias="0.2" />
 
-            <TextView
-                android:id="@+id/registerText"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="@string/register_text"
-                android:textAlignment="center"
-                android:textColor="@color/brandOrange"
-                android:textSize="20sp" />
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="13dp"
+                    android:background="@color/brandGrey" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/white"
+                    android:padding="3dp"
+                    android:text="@string/or"
+                    android:textColor="@color/brandGrey" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="120dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:alpha="0.5"
+                android:backgroundTint="@color/brandGold"
+                android:enabled="false"
+                android:stateListAnimator="@animator/smooth_shadow_button"
+                android:text="@string/action_sign_in"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
+                app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
+                app:layout_constraintTop_toBottomOf="@+id/password"
+                app:layout_constraintVertical_bias="0.2" />
 
             <ProgressBar
                 android:id="@+id/registerLoading"
@@ -162,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="0dp"
                 android:visibility="gone"

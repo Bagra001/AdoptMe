@@ -68,6 +68,8 @@ class RegisterFragment : Fragment() {
                 }
                 registerFormState.repeatedPasswordError?.let {
                     repeatedPasswordEditText.error = getString(it)
+                } ?: run {
+                    repeatedPasswordEditText.error = null
                 }
             })
 
@@ -130,7 +132,7 @@ class RegisterFragment : Fragment() {
 
     private fun navigateToLogin(success: Boolean) {
         if(success) {
-            // TODO : initiate successful logged in experience
+            // TODO : initiate successful registered experience
             val appContext = context?.applicationContext ?: return
             Toast.makeText(appContext, "The registration was successfull", Toast.LENGTH_LONG).show()
             val intent = Intent(activity, LoginActivity::class.java)
