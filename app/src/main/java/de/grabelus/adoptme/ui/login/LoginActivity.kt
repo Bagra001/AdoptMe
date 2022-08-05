@@ -1,22 +1,23 @@
 package de.grabelus.adoptme.ui.login
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import de.grabelus.adoptme.MainActivity
-import de.grabelus.adoptme.databinding.ActivityLoginBinding
-
 import de.grabelus.adoptme.R
+import de.grabelus.adoptme.databinding.ActivityLoginBinding
 import de.grabelus.adoptme.ui.register.RegisterFragment
 
 class LoginActivity : AppCompatActivity() {
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,6 +37,21 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.loginButton
         val loading = binding.loginLoading
         val registerButton = binding.registerButton
+        val googleButton = binding.googleLoginButton
+        val facebookButton = binding.facebookLoginButton
+
+        facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+
+        facebookButton.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if (event?.action == MotionEvent.ACTION_UP) {
+                    facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+                } else if (event?.action == MotionEvent.ACTION_DOWN) {
+                    facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_button_background_color_pressed));
+                }
+                return false
+            }
+        });
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -44,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
 
             // disable login button unless both username / password is valid
             login.isEnabled = loginState.isDataValid
-            login.alpha = if(login.isEnabled) 1f else 0.25f
+            login.alpha = if (login.isEnabled) 1f else 0.25f
 
             if (loginState.usernameError != null) {
                 email.error = getString(loginState.usernameError)
@@ -102,7 +119,8 @@ class LoginActivity : AppCompatActivity() {
             }
 
             registerButton.setOnClickListener {
-                supportFragmentManager.beginTransaction().replace(R.id.loginContainer, RegisterFragment()).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.loginContainer, RegisterFragment()).commit()
             }
         }
     }
