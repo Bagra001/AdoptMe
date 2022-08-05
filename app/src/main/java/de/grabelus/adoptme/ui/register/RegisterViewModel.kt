@@ -16,6 +16,9 @@ class RegisterViewModel(private val userService: UserService) : ViewModel() {
     private val _registerResult = MutableLiveData<RegisterResult>()
     val registerResult: LiveData<RegisterResult> = _registerResult
 
+    /**
+     * Makes the registration of the user
+     */
     fun register(email: String, username: String, password: String, repeatedPassword: String) {
         // can be launched in a separate asynchronous job
         val result = userService.register(email, username, password, repeatedPassword)
@@ -28,6 +31,9 @@ class RegisterViewModel(private val userService: UserService) : ViewModel() {
         }
     }
 
+    /**
+     * Makes the validation
+     */
     fun registerDataChanged(
         email: String,
         username: String,
@@ -38,7 +44,6 @@ class RegisterViewModel(private val userService: UserService) : ViewModel() {
         val passwordValid = isPasswordValid(password)
         val repeatedPasswordValid = isPasswordValid(repeatedPassword)
         val passwordSame = isPasswordTheSame(password, repeatedPassword)
-
 
         if (email.isNotEmpty() && !emailValid) {
             _registerForm.value = RegisterFormState(emailError = R.string.invalid_email)
@@ -61,14 +66,23 @@ class RegisterViewModel(private val userService: UserService) : ViewModel() {
         }
     }
 
+    /**
+     * email check
+     */
     private fun isEmailValid(email: String): Boolean {
         return email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    /**
+     * password check
+     */
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
 
+    /**
+     * checks if the two passwords are the same
+     */
     private fun isPasswordTheSame(password: String, repeatedPassword: String): Boolean {
         return password.isNotBlank() && repeatedPassword.isNotBlank() && password == repeatedPassword
     }

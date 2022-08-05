@@ -40,14 +40,14 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        registerViewModel = ViewModelProvider(this, RegisterViewModelFactory())
-            .get(RegisterViewModel::class.java)
+        registerViewModel = ViewModelProvider(this, RegisterViewModelFactory())[RegisterViewModel::class.java]
 
         val email = binding.email
         val usernameEditText = binding.username
         val passwordEditText = binding.password
         val repeatedPasswordEditText = binding.repeatedPassword
         val registerButton = binding.register
+        val loginButton = binding.loginButton
         val loadingProgressBar = binding.registerLoading
 
         registerViewModel.registerFormState.observe(viewLifecycleOwner,
@@ -128,6 +128,10 @@ class RegisterFragment : Fragment() {
                 repeatedPasswordEditText.text.toString()
             )
         }
+
+        loginButton.setOnClickListener {
+            navigateToLoginIntent()
+        }
     }
 
     private fun navigateToLogin(success: Boolean) {
@@ -135,8 +139,7 @@ class RegisterFragment : Fragment() {
             // TODO : initiate successful registered experience
             val appContext = context?.applicationContext ?: return
             Toast.makeText(appContext, "The registration was successfull", Toast.LENGTH_LONG).show()
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
+            navigateToLoginIntent()
         } else {
             showRegisterFailed(R.string.something_went_wrong)
         }
@@ -145,6 +148,11 @@ class RegisterFragment : Fragment() {
     private fun showRegisterFailed(@StringRes errorString: Int) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
+    }
+
+    private fun navigateToLoginIntent() {
+        val intent = Intent(activity, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
