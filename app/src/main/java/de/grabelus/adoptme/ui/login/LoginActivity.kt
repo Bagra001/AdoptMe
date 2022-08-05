@@ -2,7 +2,6 @@ package de.grabelus.adoptme.ui.login
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -13,7 +12,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -47,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         val googleButton = binding.googleLoginButton
         val facebookButton = binding.facebookLoginButton
 
+        configureGoogleButton(googleButton)
         configureFaceBookButton(facebookButton)
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
@@ -71,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
             loading.visibility = View.GONE
             if (loginResult.error != null) showLoginFailed(loginResult.error)
-            if (loginResult.success != null) updateUiWithUser(loginResult.success)
+            if (loginResult.success != null) updateUiWithUser()
             setResult(Activity.RESULT_OK)
             //Complete and destroy login activity once successful
             finish()
@@ -115,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    private fun updateUiWithUser() {
         val i = Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(i)
     }
@@ -126,16 +125,21 @@ class LoginActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun configureFaceBookButton(facebookButton: Button) {
-        facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+        facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue))
 
         facebookButton.setOnTouchListener { _, event ->
             if (event?.action == MotionEvent.ACTION_UP) {
-                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue))
             } else if (event?.action == MotionEvent.ACTION_DOWN) {
-                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_button_background_color_pressed));
+                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_button_background_color_pressed))
             }
             false
-        };
+        }
+    }
+
+    private fun configureGoogleButton(googleLoginButton: com.shobhitpuri.custombuttons.GoogleSignInButton) {
+        googleLoginButton.alpha
+        // to implement
     }
 }
 
