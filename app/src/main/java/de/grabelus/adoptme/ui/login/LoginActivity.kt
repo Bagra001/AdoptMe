@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -46,19 +47,9 @@ class LoginActivity : AppCompatActivity() {
         val googleButton = binding.googleLoginButton
         val facebookButton = binding.facebookLoginButton
 
-        facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+        configureFaceBookButton(facebookButton)
 
-        facebookButton.setOnTouchListener { v, event ->
-            if (event?.action == MotionEvent.ACTION_UP) {
-                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
-            } else if (event?.action == MotionEvent.ACTION_DOWN) {
-                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_button_background_color_pressed));
-            }
-            false
-        };
-
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -79,14 +70,9 @@ class LoginActivity : AppCompatActivity() {
             val loginResult = it ?: return@Observer
 
             loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
-            }
+            if (loginResult.error != null) showLoginFailed(loginResult.error)
+            if (loginResult.success != null) updateUiWithUser(loginResult.success)
             setResult(Activity.RESULT_OK)
-
             //Complete and destroy login activity once successful
             finish()
         })
@@ -136,6 +122,20 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun configureFaceBookButton(facebookButton: Button) {
+        facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+
+        facebookButton.setOnTouchListener { _, event ->
+            if (event?.action == MotionEvent.ACTION_UP) {
+                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_blue));
+            } else if (event?.action == MotionEvent.ACTION_DOWN) {
+                facebookButton.setBackgroundColor(getColor(com.facebook.login.R.color.com_facebook_button_background_color_pressed));
+            }
+            false
+        };
     }
 }
 
