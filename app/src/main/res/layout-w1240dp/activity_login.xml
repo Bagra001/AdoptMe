@@ -149,17 +149,16 @@
 
             <com.shobhitpuri.custombuttons.GoogleSignInButton
                 android:id="@+id/google_login_button"
-                android:layout_width="205dp"
+                android:layout_width="305dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="15dp"
                 android:stateListAnimator="@animator/smooth_shadow_button"
-                android:paddingEnd="55dp"
                 android:text="@string/signin_google"
-                android:textAlignment="viewEnd"/>
+                android:textAlignment="center"/>
 
             <Button
                 android:id="@+id/facebook_login_button"
-                android:layout_width="200dp"
+                android:layout_width="300dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="15dp"
                 android:drawableLeft="@drawable/com_facebook_button_icon"
@@ -169,8 +168,7 @@
                 android:text="@string/facebook_login"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:textAlignment="viewEnd"
-                android:paddingEnd="50dp" />
+                android:textAlignment="center" />
 
             <ProgressBar
                 android:id="@+id/loginLoading"
