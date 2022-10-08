@@ -48,13 +48,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun profileImageClickEvent(navView: NavigationView) {
         val headerView: View = navView.getHeaderView(0);
-        val profileImage: ImageView = headerView.findViewById<ImageView>(R.id.profileImage)
+        val profileImage: ImageView = headerView.findViewById(R.id.profileImage)
         profileImage.setOnClickListener {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
             val navController = navHostFragment.navController
             navController.navigate(R.id.action_nav_home_to_nav_profile)
             //TODO hide navbar here
+
         }
     }
 
