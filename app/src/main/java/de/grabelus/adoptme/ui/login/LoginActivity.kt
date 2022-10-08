@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginResult.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
 
-            loading.visibility = View.GONE
+            loading?.visibility = View.GONE
             if (loginResult.error != null) showLoginFailed(loginResult.error)
             if (loginResult.success != null) updateUiWithUser()
             setResult(Activity.RESULT_OK)
@@ -103,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             login.setOnClickListener {
-                loading.visibility = View.VISIBLE
+                loading?.visibility = View.VISIBLE
                 loginViewModel.login(email.text.toString(), password.text.toString())
             }
 

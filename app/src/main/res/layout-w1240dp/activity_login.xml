@@ -121,8 +121,8 @@
                     android:layout_centerHorizontal="true"
                     android:background="@android:color/white"
                     android:padding="3dp"
-                    android:text="or"
-                    android:textColor="@color/brandGrey" />
+                    android:text="@string/or"
+                    android:textColor="#757575" />
             </RelativeLayout>
 
 
@@ -154,7 +154,8 @@
                 android:layout_marginTop="15dp"
                 android:stateListAnimator="@animator/smooth_shadow_button"
                 android:text="@string/signin_google"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#757575" />
 
             <Button
                 android:id="@+id/facebook_login_button"

@@ -170,8 +170,8 @@
                     android:layout_centerHorizontal="true"
                     android:background="@android:color/white"
                     android:padding="3dp"
-                    android:text="or"
-                    android:textColor="@color/brandGrey" />
+                    android:text="@string/or"
+                    android:textColor="#757575" />
             </RelativeLayout>
 
             <Button
