@@ -47,7 +47,7 @@
                 android:layout_width="1025dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="225dp"
+                android:layout_marginTop="150dp"
                 android:layout_marginEnd="24dp"
                 android:alpha="0.8"
                 android:autofillHints="@string/prompt_name"
@@ -139,8 +139,8 @@
                 android:layout_width="300dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="18dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:width="150dp"
                 android:alpha="0.25"
                 android:backgroundTint="@color/brandGold"
@@ -179,8 +179,8 @@
                 android:layout_width="300dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:alpha="1"
                 android:backgroundTint="@color/brandGold"
                 android:stateListAnimator="@animator/smooth_shadow_button"
@@ -191,6 +191,36 @@
                 app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
                 app:layout_constraintTop_toBottomOf="@+id/password"
                 app:layout_constraintVertical_bias="0.2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <com.shobhitpuri.custombuttons.GoogleSignInButton
+                    android:id="@+id/google_login_button"
+                    android:layout_width="255dp"
+                    android:layout_height="44dp"
+                    android:paddingStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:stateListAnimator="@animator/smooth_shadow_button"
+                    android:text="@string/signin_google"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/facebook_login_button"
+                    android:layout_width="250dp"
+                    android:layout_height="48dp"
+                    android:drawableLeft="@drawable/com_facebook_button_icon"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:stateListAnimator="@animator/smooth_shadow_button"
+                    android:text="@string/facebook_login"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/registerLoading"

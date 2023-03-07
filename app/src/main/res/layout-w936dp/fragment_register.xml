@@ -192,6 +192,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/password"
                 app:layout_constraintVertical_bias="0.2" />
 
+            <com.shobhitpuri.custombuttons.GoogleSignInButton
+                android:id="@+id/google_login_button"
+                android:layout_width="255dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="20dp"
+                android:stateListAnimator="@animator/smooth_shadow_button"
+                android:text="@string/signin_google"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/facebook_login_button"
+                android:layout_width="250dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/com_facebook_button_icon"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:stateListAnimator="@animator/smooth_shadow_button"
+                android:text="@string/facebook_login"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
             <ProgressBar
                 android:id="@+id/loginLoading"
                 android:layout_width="wrap_content"

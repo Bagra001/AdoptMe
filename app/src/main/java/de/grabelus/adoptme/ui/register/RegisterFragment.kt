@@ -93,7 +93,7 @@ class RegisterFragment : Fragment() {
         registerViewModel.registerResult.observe(viewLifecycleOwner,
             Observer { registerResult ->
                 registerResult ?: return@Observer
-                loadingProgressBar.visibility = View.GONE
+                loadingProgressBar?.visibility = View.GONE
                 registerResult.error?.let {
                     showRegisterFailed(it)
                 }
@@ -137,7 +137,7 @@ class RegisterFragment : Fragment() {
         }
 
         registerButton.setOnClickListener {
-            loadingProgressBar.visibility = View.VISIBLE
+            loadingProgressBar?.visibility = View.VISIBLE
             registerViewModel.register(
                 email.text.toString(),
                 usernameEditText.text.toString(),
