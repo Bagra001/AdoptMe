@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace 'de.grabelus.adoptmer'
     compileSdk 33
 
     defaultConfig {
