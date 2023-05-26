@@ -36,4 +36,6 @@
     <string name="or">or</string>
     <string name="signin_google">SIGN IN WITH GOOGLE</string>
     <string name="signin_google_short">SIGN IN WITH</string>
+    <string name="default_web_client_id">166227964131-1h5hll7inde9co0cae9g62s07fb0l9sk.apps.googleusercontent.com</string>
+    <string name="user_not_found">The User is not found</string>
 </resources>
