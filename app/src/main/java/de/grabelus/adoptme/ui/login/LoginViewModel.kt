@@ -23,10 +23,14 @@ class LoginViewModel(private val userService: UserService) : ViewModel() {
 
         if (result is Result.Success) {
             _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.username))
+                LoginResult(success = LoggedInUserView(displayName = result.data.username), email =  result.data.username, userId = result.data.userId)
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }
+    }
+
+    fun loginResultUpdate(username: String?, userId: Int?) {
+        _loginResult.value = LoginResult(success = LoggedInUserView(displayName = username!!), email = username, userId = userId)
     }
 
     fun loginDataChanged(username: String, password: String) {

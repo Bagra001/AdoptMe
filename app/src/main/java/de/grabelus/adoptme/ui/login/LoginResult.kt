@@ -5,5 +5,7 @@ package de.grabelus.adoptme.ui.login
  */
 data class LoginResult(
     val success: LoggedInUserView? = null,
-    val error: Int? = null
+    val error: Int? = null,
+    val email: String? = null,
+    val userId: Int? = null
 )
