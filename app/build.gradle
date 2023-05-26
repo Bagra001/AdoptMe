@@ -7,7 +7,7 @@ android {
     namespace 'de.grabelus.adoptme'
 
     compileSdk 33
-
+    //TODO google sign in sign up error beheben
     defaultConfig {
         applicationId "de.grabelus.adoptme"
         minSdk 33
@@ -18,10 +18,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("/src/main/res/cacert.jks")
+            storePassword "GV3fhbS3"
+            keyAlias "adoptme"
+            keyPassword "26092811"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
