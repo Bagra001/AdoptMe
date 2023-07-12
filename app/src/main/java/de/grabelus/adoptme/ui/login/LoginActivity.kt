@@ -144,7 +144,6 @@ class LoginActivity : AppCompatActivity(), FragmentChangeListener {
     }
 
     private fun configureGoogleButton(googleLoginButton: com.shobhitpuri.custombuttons.GoogleSignInButton) {
-        googleLoginButton.alpha
         // to implement
     }
 

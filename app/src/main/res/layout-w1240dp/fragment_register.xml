@@ -37,7 +37,7 @@
             android:id="@+id/verticalLoginLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="85dp"
             android:background="@drawable/rounded_corners"
             android:gravity="center_horizontal"
             android:orientation="vertical"
@@ -58,7 +58,7 @@
                 android:inputType="text"
                 android:minHeight="48dp"
                 android:selectAllOnFocus="true"
-                android:textColor="@color/brandGrey"
+                android:textColor="@color/brandComplementary"
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -77,7 +77,7 @@
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
                 android:selectAllOnFocus="true"
-                android:textColor="@color/brandGrey"
+                android:textColor="@color/brandComplementary"
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +98,7 @@
                 android:inputType="textPassword"
                 android:minHeight="48dp"
                 android:selectAllOnFocus="true"
-                android:textColor="@color/brandGrey"
+                android:textColor="@color/brandComplementary"
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,7 @@
                 android:inputType="textPassword"
                 android:minHeight="48dp"
                 android:selectAllOnFocus="true"
-                android:textColor="@color/brandGrey"
+                android:textColor="@color/brandComplementary"
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
                 android:layout_marginTop="0dp"
                 android:text="@string/register_text"
                 android:textAlignment="center"
-                android:textColor="@color/brandOrange"
+                android:textColor="@color/brandComplementary"
                 android:textSize="20sp" />
 
             <Button
@@ -193,6 +193,40 @@
                 app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
                 app:layout_constraintTop_toBottomOf="@+id/password"
                 app:layout_constraintVertical_bias="0.2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <com.shobhitpuri.custombuttons.GoogleSignInButton
+                    android:id="@+id/google_login_button"
+                    android:layout_width="140dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="35dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/signup_google_short"
+                    android:stateListAnimator="@animator/smooth_shadow_button"
+                    android:textAlignment="center" />
+                <Space
+                    android:layout_width="14dp"
+                    android:layout_height="match_parent"/>
+                <Button
+                    android:id="@+id/facebook_login_button"
+                    android:layout_width="140dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/com_facebook_button_icon"
+                    android:paddingLeft="10dp"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:stateListAnimator="@animator/smooth_shadow_button"
+                    android:textAlignment="center"
+                    android:text="@string/action_register_short"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/registerLoading"
