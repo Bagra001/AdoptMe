@@ -168,8 +168,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun navigateToLoginIntent() {
-        val intent = Intent(activity, LoginActivity::class.java)
-        startActivity(intent)
+        parentFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun onDestroyView() {

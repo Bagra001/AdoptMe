@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/loginbrandlogo"
             android:elevation="5dp"
-            android:src="@mipmap/ic_adopt_me_logo"
+            android:src="@mipmap/ic_adopt_me_logo_round"
             app:civ_border_width="0dp" />
 
         <LinearLayout
