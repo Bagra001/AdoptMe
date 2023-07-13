@@ -1,7 +1,7 @@
 package de.grabelus.adoptme.ui.register
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.annotation.StringRes
@@ -10,15 +10,17 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat.getColor
 import de.grabelus.adoptme.databinding.FragmentRegisterBinding
 
 import de.grabelus.adoptme.R
-import de.grabelus.adoptme.ui.login.LoginActivity
 
 class RegisterFragment : Fragment() {
 
@@ -51,6 +53,7 @@ class RegisterFragment : Fragment() {
     ): View {
 
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        _binding?.facebookLoginButton?.let { configureFaceBookButton(it) }
         return binding.root
 
     }
@@ -147,7 +150,7 @@ class RegisterFragment : Fragment() {
         }
 
         loginButton.setOnClickListener {
-            navigateToLoginIntent()
+            navigateToLogin()
         }
     }
 
@@ -156,7 +159,7 @@ class RegisterFragment : Fragment() {
             // TODO : initiate successful registered experience
             val appContext = context?.applicationContext ?: return
             Toast.makeText(appContext, "The registration was successfull", Toast.LENGTH_LONG).show()
-            navigateToLoginIntent()
+            navigateToLogin()
         } else {
             showRegisterFailed(R.string.something_went_wrong)
         }
@@ -167,9 +170,25 @@ class RegisterFragment : Fragment() {
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }
 
-    private fun navigateToLoginIntent() {
-        val intent = Intent(activity, LoginActivity::class.java)
-        startActivity(intent)
+    private fun navigateToLogin() {
+        parentFragmentManager.beginTransaction().remove(this).commit()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun configureFaceBookButton(facebookButton: Button) {
+        context?.let { getColor(it, com.facebook.login.R.color.com_facebook_blue) }
+            ?.let { facebookButton.setBackgroundColor(it) }
+
+        facebookButton.setOnTouchListener { _, event ->
+            if (event?.action == MotionEvent.ACTION_UP) {
+                context?.let { getColor(it, com.facebook.login.R.color.com_facebook_blue) }
+                    ?.let { facebookButton.setBackgroundColor(it) }
+            } else if (event?.action == MotionEvent.ACTION_DOWN) {
+                context?.let { getColor(it, com.facebook.login.R.color.com_facebook_button_background_color_pressed) }
+                    ?.let { facebookButton.setBackgroundColor(it) }
+            }
+            false
+        }
     }
 
     override fun onDestroyView() {

@@ -30,26 +30,32 @@
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/loginbrandlogo"
             android:elevation="5dp"
-            android:src="@mipmap/ic_adopt_me_logo"
+            android:src="@mipmap/ic_adopt_me_logo_round"
             app:civ_border_width="0dp" />
 
         <LinearLayout
             android:id="@+id/verticalLoginLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="110dp"
             android:background="@drawable/rounded_corners"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="-14dp"
             tools:layout_editor_absoluteY="-16dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
             <EditText
                 android:id="@+id/email"
-                android:layout_width="550dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="225dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="24dp"
                 android:autofillHints="@string/prompt_email"
                 android:backgroundTint="@color/brandOrange"
@@ -57,7 +63,7 @@
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
                 android:selectAllOnFocus="true"
-                android:textColor="@color/brandPurple"
+                android:textColor="@color/brandComplementary"
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,10 +71,10 @@
 
             <EditText
                 android:id="@+id/password"
-                android:layout_width="550dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="24dp"
                 android:autofillHints="@string/prompt_password"
                 android:backgroundTint="@color/brandOrange"
@@ -78,27 +84,28 @@
                 android:inputType="textPassword"
                 android:minHeight="48dp"
                 android:selectAllOnFocus="true"
-                android:textColor="@color/brandPurple"
+                android:textColor="@color/brandComplementary"
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/username" />
+        </LinearLayout>
 
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="250dp"
-                android:layout_height="48dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="48dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="48dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 android:alpha="0.5"
                 android:backgroundTint="@color/brandGold"
                 android:enabled="false"
+                android:stateListAnimator="@animator/smooth_shadow_button"
                 android:text="@string/action_sign_in"
                 android:textColor="@color/white"
-                android:stateListAnimator="@animator/smooth_shadow_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
                 app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
@@ -129,18 +136,18 @@
             <Button
                 android:id="@+id/registerButton"
                 android:layout_width="250dp"
-                android:layout_height="48dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="48dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="48dp"
                 android:layout_marginBottom="10dp"
                 android:alpha="1"
                 android:backgroundTint="@color/brandGold"
                 android:enabled="false"
+                android:stateListAnimator="@animator/smooth_shadow_button"
                 android:text="@string/action_register"
                 android:textColor="@color/white"
-                android:stateListAnimator="@animator/smooth_shadow_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
                 app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
@@ -154,7 +161,7 @@
                 android:layout_marginTop="25dp"
                 android:stateListAnimator="@animator/smooth_shadow_button"
                 android:text="@string/signin_google"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/facebook_login_button"
@@ -166,9 +173,9 @@
                 android:paddingRight="10dp"
                 android:stateListAnimator="@animator/smooth_shadow_button"
                 android:text="@string/facebook_login"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textAlignment="center"/>
+                android:textSize="12sp" />
 
             <ProgressBar
                 android:id="@+id/loginLoading"
