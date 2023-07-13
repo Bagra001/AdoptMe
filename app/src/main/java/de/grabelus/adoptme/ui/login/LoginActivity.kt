@@ -1,5 +1,6 @@
 package de.grabelus.adoptme.ui.login
 
+import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -16,6 +17,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -28,9 +32,9 @@ import de.grabelus.adoptme.MainActivity
 import de.grabelus.adoptme.R
 import de.grabelus.adoptme.databinding.ActivityLoginBinding
 import de.grabelus.adoptme.ui.register.RegisterFragment
+import de.grabelus.adoptme.ui.util.FragmentChangeListener
 
-
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), FragmentChangeListener {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
@@ -125,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
 
             registerButton.setOnClickListener {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.loginContainer, RegisterFragment()).commit()
+                    .add(R.id.loginContainer, RegisterFragment()).commit()
             }
         }
     }
@@ -288,6 +292,14 @@ class LoginActivity : AppCompatActivity() {
                 // No Google Accounts found. Just continue presenting the signed-out UI.
                 Log.d("googleSignUp", e.localizedMessage)
             }
+    }
+
+    override fun replaceFragment(fragment: Fragment) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(0, fragment, fragment.toString())
+        fragmentTransaction.addToBackStack(fragment.toString())
+        fragmentTransaction.commit()
     }
 }
 

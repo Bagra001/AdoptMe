@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "71921389028",
+    "project_id": "adoptme-68014",
+    "storage_bucket": "adoptme-68014.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71921389028:android:d7d7d62b7c2ccffcce4bf1",
+        "android_client_info": {
+          "package_name": "de.grabelus.adoptme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqleyurXiNrcprmQdFrq2Zi_bKkDsdbOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
