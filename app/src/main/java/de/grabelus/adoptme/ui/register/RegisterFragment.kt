@@ -1,14 +1,14 @@
 package de.grabelus.adoptme.ui.register
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
+import android.content.Intent
+import android.content.IntentSender
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -17,12 +17,29 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat.getColor
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
+import de.grabelus.adoptme.R
 import de.grabelus.adoptme.databinding.FragmentRegisterBinding
 
-import de.grabelus.adoptme.R
 
 class RegisterFragment : Fragment() {
+
+    companion object {
+        private const val REQ_ONE_TAP = 2
+    }
+    private var showOneTapUI = true
+
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signUpRequest: BeginSignInRequest
 
     private lateinit var registerViewModel: RegisterViewModel
     private var _binding: FragmentRegisterBinding? = null
@@ -46,12 +63,29 @@ class RegisterFragment : Fragment() {
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        oneTapClient = Identity.getSignInClient(this.requireContext())
+        signUpRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                .setSupported(true)
+                .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    // Your server's client ID, not your Android client ID.
+                    .setServerClientId(getString(R.string.default_web_client_id))
+                    // Show all accounts on the device.
+                    .setFilterByAuthorizedAccounts(false)
+                    .build())
+            .build()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         _binding?.facebookLoginButton?.let { configureFaceBookButton(it) }
         return binding.root
@@ -69,6 +103,25 @@ class RegisterFragment : Fragment() {
         val registerButton = binding.register
         val loginButton = binding.loginButton
         val loadingProgressBar = binding.registerLoading
+        val googleButton = binding.googleLoginButton
+
+        googleButton.setOnClickListener {
+            oneTapClient.beginSignIn(signUpRequest)
+                .addOnSuccessListener(this.requireActivity()) { result ->
+                    try {
+                        startIntentSenderForResult(
+                            result.pendingIntent.intentSender, REQ_ONE_TAP,
+                            null, 0, 0, 0, null)
+                    } catch (e: IntentSender.SendIntentException) {
+                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                    }
+                }
+                .addOnFailureListener(this.requireActivity()) { e ->
+                    // No Google Accounts found. Just continue presenting the signed-out UI.
+                    Log.d(TAG, e.localizedMessage)
+                    Toast.makeText(this.requireContext(), e.localizedMessage, Toast.LENGTH_SHORT).show()
+                }
+        }
 
         registerViewModel.registerFormState.observe(viewLifecycleOwner,
             Observer { registerFormState ->
@@ -151,6 +204,53 @@ class RegisterFragment : Fragment() {
 
         loginButton.setOnClickListener {
             navigateToLogin()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            REQ_ONE_TAP -> {
+                try {
+                    val credential = oneTapClient.getSignInCredentialFromIntent(data)
+                    val idToken = credential.googleIdToken
+                    val password = credential.password
+                    when {
+                        idToken != null -> {
+                            //TODO parse jwt idToken id: zbf
+                            registerViewModel.register(credential.id!!, credential.displayName!!, idToken, idToken)
+                            Log.d(TAG, "Got ID token.")
+
+                        }
+                        password != null -> {
+                            registerViewModel.register(credential.id!!, credential.displayName!!, password, password)
+                            Log.d(TAG, "Got ID token.")
+
+                        }
+                        else -> {
+                            // Shouldn't happen.
+                            Log.d(TAG, "No ID token!")
+                        }
+                    }
+                } catch (e: ApiException) {
+                    when (e.statusCode) {
+                        CommonStatusCodes.CANCELED -> {
+                            Log.d(TAG, "One-tap dialog was closed.")
+                            // Don't re-prompt the user.
+                            showOneTapUI = false
+                        }
+                        CommonStatusCodes.NETWORK_ERROR -> {
+                            Log.d(TAG, "One-tap encountered a network error.")
+                            // Try again or just ignore.
+                        }
+                        else -> {
+                            Log.d(TAG, "Couldn't get credential from result." +
+                                    " (${e.localizedMessage})")
+                        }
+                    }
+                }
+            }
         }
     }
 
