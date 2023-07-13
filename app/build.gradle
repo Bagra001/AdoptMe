@@ -9,7 +9,6 @@ android {
     namespace 'de.grabelus.adoptme'
 
     compileSdk 33
-    //TODO google sign in sign up error beheben
     defaultConfig {
         applicationId "de.grabelus.adoptme"
         minSdk 33
