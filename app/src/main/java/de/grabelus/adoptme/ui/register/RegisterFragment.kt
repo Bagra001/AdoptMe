@@ -65,6 +65,7 @@ class RegisterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //TODO prüfe anmelden und register
         oneTapClient = Identity.getSignInClient(this.requireContext())
         signUpRequest = BeginSignInRequest.builder()
             .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
