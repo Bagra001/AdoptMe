@@ -103,7 +103,6 @@ class RegisterFragment : Fragment() {
         val passwordEditText = binding.password
         val repeatedPasswordEditText = binding.repeatedPassword
         val registerButton = binding.register
-        val loginButton = binding.loginButton
         val loadingProgressBar = binding.registerLoading
         val googleButton = binding.googleLoginButton
 
