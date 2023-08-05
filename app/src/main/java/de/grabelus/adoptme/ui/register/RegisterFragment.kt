@@ -29,6 +29,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import de.grabelus.adoptme.R
 import de.grabelus.adoptme.databinding.FragmentRegisterBinding
+import de.grabelus.adoptme.ui.login.LoginFragment
 
 
 class RegisterFragment : Fragment() {
@@ -54,7 +55,7 @@ class RegisterFragment : Fragment() {
             object : OnBackPressedCallback(true)
             {
                 override fun handleOnBackPressed() {
-                    // Leave empty do disable back press
+                    backToStart()
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -202,10 +203,6 @@ class RegisterFragment : Fragment() {
                 repeatedPasswordEditText.text.toString()
             )
         }
-
-        loginButton.setOnClickListener {
-            navigateToLogin()
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -271,8 +268,12 @@ class RegisterFragment : Fragment() {
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }
 
-    private fun navigateToLogin() {
+    private fun backToStart() {
         parentFragmentManager.beginTransaction().remove(this).commit()
+    }
+
+    private fun navigateToLogin() {
+        parentFragmentManager.beginTransaction().replace(R.id.registerContainer, LoginFragment()).commit()
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brandPurple"
+    android:fitsSystemWindows="true"
+    tools:context=".StartActivity">
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:background="@mipmap/logo_plain"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/plain_logo_desc"
+                >
+            </ImageView>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/registerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/slogan"
+            android:textAlignment="center"
+            android:textColor="@color/brandComplementary"
+            android:textSize="24sp" />
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="185dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="5dp"
+            android:width="165dp"
+            android:alpha="1"
+            android:backgroundTint="@color/brandGold"
+            android:stateListAnimator="@animator/smooth_shadow_button"
+            android:text="@string/action_register"
+            android:textColor="@color/brandPurple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
+            app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
+            app:layout_constraintTop_toBottomOf="@+id/repeatedPassword"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="13dp"
+                android:background="@color/brandGrey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@color/brandPurple"
+                android:padding="3dp"
+                android:text="@string/or"
+                android:textColor="@color/brandGrey" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="185dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:alpha="1"
+            android:backgroundTint="@color/brandGold"
+            android:stateListAnimator="@animator/smooth_shadow_button"
+            android:text="@string/action_sign_in"
+            android:textColor="@color/brandPurple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
+            app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@mipmap/hand_pfote_herz"
+                android:layout_centerInParent="true"
+                android:layout_alignParentEnd="true"
+                android:rotation="-30"
+                android:contentDescription="@string/heart_logo_desc"
+                >
+            </ImageView>
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import de.grabelus.adoptme.data.Result
-
 import de.grabelus.adoptme.R
 import de.grabelus.adoptme.data.UserService
 
@@ -21,7 +19,7 @@ class LoginViewModel(private val userService: UserService) : ViewModel() {
         // can be launched in a separate asynchronous job
         val result = userService.login(username, password)
 
-        if (result is Result.Success) {
+        if (result is de.grabelus.adoptme.data.Result.Success) {
             _loginResult.value =
                 LoginResult(success = LoggedInUserView(displayName = result.data.username), email =  result.data.username, userId = result.data.userId)
         } else {
