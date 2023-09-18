@@ -5,6 +5,12 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+
+// Load keystore
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     namespace 'de.grabelus.adoptme'
 
@@ -13,6 +19,7 @@ android {
         applicationId "de.grabelus.adoptme"
         minSdk 33
         targetSdk 33
+        compileSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -21,10 +28,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("/src/main/res/cacert.jks")
-            storePassword "GV3fhbS3"
-            keyAlias "adoptme"
-            keyPassword "26092811"
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 
