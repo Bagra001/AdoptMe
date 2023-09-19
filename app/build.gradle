@@ -3,8 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'org.jetbrains.kotlin.kapt'
 }
 
+apply plugin: "realm-android"
 
 // Load keystore
 def keystorePropertiesFile = rootProject.file("keystore.properties");
@@ -52,6 +54,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+}
+
+realm {
+    syncEnabled = true
 }
 
 dependencies {

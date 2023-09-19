@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import de.grabelus.adoptme.databinding.ActivityStartBinding
 import de.grabelus.adoptme.ui.login.LoginFragment
 import de.grabelus.adoptme.ui.register.RegisterFragment
+import io.realm.Realm
 
 class StartActivity : AppCompatActivity() {
 
@@ -38,5 +39,7 @@ class StartActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .add(R.id.start_container, RegisterFragment()).commit()
         }
+
+        Realm.init(this) // context, usually an Activity or Application
     }
 }

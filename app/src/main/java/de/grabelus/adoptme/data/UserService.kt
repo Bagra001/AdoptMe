@@ -11,7 +11,7 @@ class UserService(private val userRepository: UserRepository) {
         return userRepository.register(RegisterUserData(email, username, password));
     }
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
-        return userRepository.login(username, password)
+    fun login(email: String, password: String): Result<LoggedInUser> {
+        return userRepository.login(email, password)
     }
 }

@@ -15,9 +15,9 @@ class LoginViewModel(private val userService: UserService) : ViewModel() {
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
+    fun login(email: String, password: String) {
         // can be launched in a separate asynchronous job
-        val result = userService.login(username, password)
+        val result = userService.login(email, password)
 
         if (result is de.grabelus.adoptme.data.Result.Success) {
             _loginResult.value =
