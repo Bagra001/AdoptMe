@@ -4,6 +4,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore/cacert.jks'
+          encodedString: ${{ secrets.KEYSTORE }}
       - name: Checkout the code
         uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -15,3 +21,7 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build the app
         run: ./gradlew build
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
