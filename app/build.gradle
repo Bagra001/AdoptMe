@@ -26,11 +26,14 @@ android {
     signingConfigs {
         release {
             def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
+            println tmpFilePath
             def allFilesFromDir = new File(tmpFilePath).listFiles()
 
             if (allFilesFromDir != null) {
+                println 'Keystore found'
                 def keystoreFile = allFilesFromDir.first()
                 keystoreFile.renameTo("keystore/cacert.jks")
+                println keystoreFile.name
             }
 
             storeFile = file("keystore/cacert.jks")
