@@ -10,7 +10,7 @@ jobs:
           run: |
             TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
             mkdir "${TMP_KEYSTORE_FILE_PATH}"
-            echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/cacert.jks
+            echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/signing_key.jks
       - name: Checkout the code
         uses: actions/checkout@v3
       - name: Set up JDK 17
