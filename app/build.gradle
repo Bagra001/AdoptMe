@@ -33,7 +33,7 @@ android {
                 println 'Keystore found'
                 def keystoreFile = allFilesFromDir.first()
                 keystoreFile.renameTo("keystore/cacert.jks")
-                println keystoreFile.name
+                println keystoreFile.path
             }
 
             storeFile = file("../keystore/cacert.jks")
