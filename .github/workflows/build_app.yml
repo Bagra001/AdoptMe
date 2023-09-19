@@ -16,7 +16,7 @@ jobs:
           ENCODED_STRING: ${{ secrets.KEYSTORE }}
         run: |
           echo $ENCODED_STRING > keystore-b64.txt
-          base64 -di keystore-b64.txt > cacert.jks
+          base64 -di keystore-b64.txt > app/cacert.jks
           ls -Rla
       - name: Make gradlew executable
         run: chmod +x ./gradlew
