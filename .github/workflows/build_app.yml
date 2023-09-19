@@ -4,13 +4,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE }}
-        run: |
-          echo $ENCODED_STRING > keystore-b64.txt
-          base64 -di keystore-b64.txt > cacert.jks
-          ls -Rla
       - name: Checkout the code
         uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -18,6 +11,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.KEYSTORE }}
+        run: |
+          echo $ENCODED_STRING > keystore-b64.txt
+          base64 -di keystore-b64.txt > cacert.jks
+          ls -Rla
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Build the app
