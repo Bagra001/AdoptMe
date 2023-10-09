@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity(), FragmentChangeListener {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         // do nothing
     }
