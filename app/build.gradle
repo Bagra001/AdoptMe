@@ -8,12 +8,12 @@ plugins {
 android {
     namespace 'de.grabelus.adoptme'
 
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "de.grabelus.adoptme"
-        minSdk 33
-        targetSdk 33
+        minSdk 34
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
