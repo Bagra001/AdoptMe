@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,11 +31,6 @@ class LoginActivity : AppCompatActivity(), FragmentChangeListener {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
-
-    @SuppressLint("MissingSuperCall")
-    override fun onBackPressed() {
-        // do nothing
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,6 +114,12 @@ class LoginActivity : AppCompatActivity(), FragmentChangeListener {
                     .add(R.id.loginContainer, RegisterFragment()).commit()
             }
         }
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+               finish()
+            }
+        })
     }
 
     private fun updateUiWithUser() {
