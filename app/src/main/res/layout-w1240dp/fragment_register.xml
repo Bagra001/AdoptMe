@@ -199,11 +199,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
-                <com.shobhitpuri.custombuttons.GoogleSignInButton
+                <Button
                     android:id="@+id/google_login_button"
                     android:layout_width="140dp"
                     android:layout_height="44dp"
                     android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/common_google_signin_btn_icon_light"
                     android:paddingStart="35dp"
                     android:paddingEnd="5dp"
                     android:text="@string/signup_google_short"
