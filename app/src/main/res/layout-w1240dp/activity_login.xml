@@ -147,11 +147,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/password"
                 app:layout_constraintVertical_bias="0.2" />
 
-            <com.shobhitpuri.custombuttons.GoogleSignInButton
+            <Button
                 android:id="@+id/google_login_button"
                 android:layout_width="305dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/common_google_signin_btn_icon_light"
                 android:stateListAnimator="@animator/smooth_shadow_button"
                 android:text="@string/signin_google"
                 android:textAlignment="center"/>
