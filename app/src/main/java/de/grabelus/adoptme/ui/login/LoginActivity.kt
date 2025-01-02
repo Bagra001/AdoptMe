@@ -1,6 +1,5 @@
 package de.grabelus.adoptme.ui.login
 
-import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -144,7 +143,7 @@ class LoginActivity : AppCompatActivity(), FragmentChangeListener {
         }
     }
 
-    private fun configureGoogleButton(googleLoginButton: com.shobhitpuri.custombuttons.GoogleSignInButton) {
+    private fun configureGoogleButton(googleLoginButton: View) {
         // to implement
     }
 
