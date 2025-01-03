@@ -147,12 +147,13 @@
             </RelativeLayout>
 <!--      TODO: Google Btn und Facebook Btn nur Logo Rund (Register und Login), Reset Passwort evtl kein Button sondern Link?     -->
 
-            <com.shobhitpuri.custombuttons.GoogleSignInButton
+            <Button
                 android:id="@+id/google_login_button"
-                android:layout_width="165dp"
-                android:layout_height="44dp"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="5dp"
-                android:paddingStart="20dp"
+                android:drawableLeft="@drawable/common_google_signin_btn_icon_light"
+                android:paddingStart="10dp"
                 android:stateListAnimator="@animator/smooth_shadow_button"
                 android:text="@string/signin_google_short"
                 android:textAlignment="center" />
