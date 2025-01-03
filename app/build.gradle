@@ -39,6 +39,9 @@ android {
 }
 
 dependencies {
+    // sec finding
+    implementation("com.google.guava:guava:32.0.1-android")
+
     implementation 'androidx.core:core-ktx:1.15.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
