@@ -5,113 +5,205 @@
     android:id="@+id/start_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/brandPurple"
+    android:background="@drawable/gradient"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="0dp"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:fitsSystemWindows="true"
     tools:context=".StartActivity">
 
-    <LinearLayout
-        android:id="@+id/content"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:background="@mipmap/logo_plain"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/plain_logo_desc"
-                >
-            </ImageView>
-        </RelativeLayout>
-        <TextView
-            android:id="@+id/registerText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:text="@string/slogan"
-            android:textAlignment="center"
-            android:textColor="@color/brandComplementary"
-            android:textSize="24sp" />
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="185dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="100dp"
-            android:layout_marginBottom="5dp"
-            android:width="165dp"
-            android:alpha="1"
-            android:backgroundTint="@color/brandGold"
-            android:stateListAnimator="@animator/smooth_shadow_button"
-            android:text="@string/action_register"
-            android:textColor="@color/brandPurple"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
-            app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
-            app:layout_constraintTop_toBottomOf="@+id/repeatedPassword"
-            app:layout_constraintVertical_bias="0.2" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="87dp"
+            android:layout_height="87dp"
+            android:elevation="1dp"
+            android:src="@mipmap/hand_pfote_herz"
+            app:civ_border_width="0dp"
+            android:contentDescription="@string/heart_logo_desc"
+            android:rotation="-30" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="13dp"
-                android:layout_marginBottom="13dp"
-                android:background="@color/brandGrey" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/brandLogoDescription"
+            android:elevation="5dp"
+            android:src="@mipmap/ic_adopt_me_logo_round"
+            app:civ_border_width="0dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@color/brandPurple"
-                android:padding="3dp"
-                android:text="@string/or"
-                android:textColor="@color/brandGrey" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="185dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:alpha="1"
-            android:backgroundTint="@color/brandGold"
-            android:stateListAnimator="@animator/smooth_shadow_button"
-            android:text="@string/action_sign_in"
-            android:textColor="@color/brandPurple"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
-            app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            app:layout_constraintVertical_bias="0.2" />
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/verticalStartLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="top"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@mipmap/hand_pfote_herz"
-                android:layout_centerInParent="true"
-                android:layout_alignParentEnd="true"
-                android:rotation="-30"
-                android:contentDescription="@string/heart_logo_desc"
-                >
-            </ImageView>
-        </RelativeLayout>
-    </LinearLayout>
+            android:layout_marginTop="90dp"
+            android:background="@drawable/rounded_corners"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="-14dp"
+            tools:layout_editor_absoluteY="-16dp">
 
+            <TextView
+                android:id="@+id/registerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="125dp"
+                android:text="@string/slogan"
+                android:textAlignment="center"
+                android:textColor="@color/brandComplementary"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints="@string/prompt_email"
+                android:backgroundTint="@color/brandOrange"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/brandComplementary"
+                android:textColorHint="@color/brandGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/logoImageView" />
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints="@string/prompt_password"
+                android:backgroundTint="@color/brandOrange"
+                android:hint="@string/prompt_password"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/brandComplementary"
+                android:textColorHint="@color/brandGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="5dp"
+                android:alpha="1"
+                android:backgroundTint="@color/brandGold"
+                android:enabled="true"
+                android:stateListAnimator="@animator/smooth_shadow_button"
+                android:text="@string/action_sign_in"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/verticalStartLayout"
+                app:layout_constraintStart_toStartOf="@+id/verticalStartLayout"
+                app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
+                app:layout_constraintVertical_bias="0.2" />
+
+            <RelativeLayout
+                android:id="@+id/spacer_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="16dp"
+                    android:background="@color/brandGrey" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/white"
+                    android:padding="3dp"
+                    android:text="@string/or"
+                    android:textColor="@color/brandGrey" />
+            </RelativeLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/google_login_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/google_logo"
+                android:stateListAnimator="@animator/smooth_shadow_button"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/google_loginBTN" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/facebook_login_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:src="@drawable/facebook_logo"
+                android:stateListAnimator="@animator/smooth_shadow_button"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/facebook_loginBTN" />
+
+            <TextView
+                android:id="@+id/passwordResetText"
+                android:layout_width="170dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="10dp"
+                android:alpha="1"
+                android:text="@string/reset_password"
+                android:textColor="@color/brandGold"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:stateListAnimator="@animator/smooth_shadow_button"/>
+
+            <ProgressBar
+                android:id="@+id/loginLoading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/verticalStartLayout"
+                app:layout_constraintEnd_toEndOf="@+id/facebook_login_button"
+                app:layout_constraintStart_toStartOf="@+id/registerLink"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

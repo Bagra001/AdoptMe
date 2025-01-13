@@ -58,7 +58,7 @@ class UserDataSource {
         // TODO: revoke authentication
     }
 
-    fun nextID(table: Class<User>?): Int {
-        return (backgroundThreadRealm.where(table).findAll().max("id")?.toInt() ?: 0) + 1
+    private fun nextID(table: Class<User>?): Int {
+        return (table?.let { backgroundThreadRealm.where(it).findAll().max("id")?.toInt() } ?: 0) + 1
     }
 }
