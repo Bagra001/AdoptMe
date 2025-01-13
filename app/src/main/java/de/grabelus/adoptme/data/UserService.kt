@@ -12,6 +12,6 @@ class UserService(private val userRepository: UserRepository) {
     }
 
     fun login(email: String, password: String): Result<LoggedInUser> {
-        return userRepository.login(email, password)
+        return userRepository.loginWithMail(email, password)
     }
 }
