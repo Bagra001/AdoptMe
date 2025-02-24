@@ -11,33 +11,16 @@ import de.grabelus.adoptme.ui.register.RegisterResult
 
 class UserRepository(val dataSource: UserDataSource) {
 
-    // in-memory cache of the loggedInUser object
-    private var user: LoggedInUser? = null
-        private set
-
-    val isLoggedIn: Boolean
-        get() = user != null
-
     fun register(registerUserData: RegisterUserData): Result<RegisterResult> {
         return dataSource.register(registerUserData)
     }
 
-    fun logout() {
-        user = null
-        dataSource.logout()
-    }
-
     fun login(email: String, userId: String): Result<LoggedInUser> {
-        val result = dataSource.login(email, userId)
-
-        if (result is Result.Success) {
-            setLoggedInUser(result.data)
-        }
-        return result;
+        return dataSource.login(email, userId)
     }
 
-    private fun setLoggedInUser(loggedInUser: LoggedInUser) {
-        this.user = loggedInUser
+    fun loginWithMail(email: String, password: String) Result<LoggedInUser> {
+        return dataSource.loginWithMail(email, password)
     }
 
     fun getUserId(email: String): String {

@@ -2,6 +2,7 @@ package de.grabelus.adoptme.ui.login
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getString
 import androidx.credentials.CredentialManager
 import androidx.credentials.CredentialOption
@@ -11,9 +12,9 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.GetPasswordOption
 import androidx.credentials.GetPublicKeyCredentialOption
 import androidx.credentials.PasswordCredential
-import androidx.credentials.PrepareGetCredentialResponse
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -36,7 +37,7 @@ import java.util.Collections
 
 class SignInManager {
     companion object {
-        suspend fun startPassKeySignIn(userRepository: UserRepository,
+        fun startPassKeySignIn(userRepository: UserRepository,
                                      context: Context,
                                      scope: CoroutineScope,
                                      login: (Result<LoggedInUser>) -> Unit) {
@@ -59,6 +60,8 @@ class SignInManager {
 
                 } catch (e: GetCredentialException){
                     e.printStackTrace()
+                } catch (e: NoCredentialException) {
+                    Toast.makeText(context, R.string.no_passkey_avail, Toast.LENGTH_SHORT).show()
                 }
             }
         }

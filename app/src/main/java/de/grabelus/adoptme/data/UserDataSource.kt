@@ -48,8 +48,31 @@ class UserDataSource {
         return result
     }
 
-    fun logout() {
-        // TODO
+    fun loginWithMail(email: String, password: String): Result<LoggedInUser> {
+        val result: Result<LoggedInUser>
+        try {
+            if(email != null) {
+                var user: User? = null
+                result = Result.Success(
+                    LoggedInUser(
+                        user!!.userId,
+                        user!!.forname,
+                        user!!.lastname,
+                        user!!.username,
+                        user!!.email,
+                        user!!.sexEnum,
+                        user!!.statusEnum,
+                        user!!.verified
+                    )
+                )
+            } else {
+                result = Result.Error(IOException("email was empty"))
+            }
+        } catch (e: Exception) {
+            logger.throwing("UserDataSource", "login", e)
+            return Result.Error(IOException("Error logging in", e))
+        }
+        return result
     }
 
     fun getUserId(email: String): String {

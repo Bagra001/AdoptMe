@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import de.grabelus.adoptme.data.Result
 import de.grabelus.adoptme.data.UserDataSource
 import de.grabelus.adoptme.data.UserRepository
+import de.grabelus.adoptme.data.UserService
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.databinding.ActivityStartBinding
 import de.grabelus.adoptme.ui.PasswordResetFragment
@@ -21,13 +22,15 @@ import io.realm.Realm
 
 class StartActivity : AppCompatActivity() {
 
-    private lateinit var userRepository: UserRepository
+    private lateinit var userService: UserService
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var passwordResetText: TextView
     private lateinit var googleButton: CircleImageView
+    private lateinit var facebookButton: CircleImageView
+    private lateinit var passkeyButton: CircleImageView
 
     private lateinit var binding: ActivityStartBinding
 
@@ -42,9 +45,9 @@ class StartActivity : AppCompatActivity() {
 
         Realm.init(this) // context, usually an Activity or Application
         val dataSource = UserDataSource()
-        userRepository = UserRepository(dataSource)
+        userService = UserService(UserRepository(dataSource))
 
-        if (userRepository.isLoggedIn) {
+        if (userService.isLoggedIn) {
             navigateToMainScreen()
         }
     }
@@ -64,7 +67,10 @@ class StartActivity : AppCompatActivity() {
         passwordEditText = binding.passwordEditText
         loginButton = binding.loginButton
         googleButton = binding.googleLoginButton
+        facebookButton = binding.facebookLoginButton
+        passkeyButton = binding.passkeyButton
         passwordResetText = binding.passwordResetText
+
     }
 
     private fun configComponents() {
@@ -83,7 +89,9 @@ class StartActivity : AppCompatActivity() {
             SignInManager.startCredLogin(userRepository, email, password, login = { loginResult -> login(loginResult) })
         }
 
-        // TODO add passkey button
+        passkeyButton.setOnClickListener {
+            SignInManager.startPassKeySignIn(userRepository,this, lifecycleScope, login = { loginResult -> login(loginResult) } )
+        }
 
         passwordResetText.setOnClickListener {
             supportFragmentManager.beginTransaction()

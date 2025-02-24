@@ -26,6 +26,7 @@
     <string name="invalid_email">Not a valid email</string>
     <string name="invalid_password">Password must be > 6 characters</string>
     <string name="not_same_password">Passwords must be the same</string>
+    <string name="no_passkey_avail">You have to create a passkey first</string>
     <string name="login_failed">"Login failed"</string>
     <string name="brandLogoDescription">BrandLogo</string>
     <string name="registration_failed">"Registration failed"</string>
