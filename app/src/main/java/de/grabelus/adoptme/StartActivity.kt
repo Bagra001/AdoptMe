@@ -54,17 +54,14 @@ class StartActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-//        mAuth.addAuthStateListener(SignInManager.newAuthStateListener())
-    }
-
-    public override fun onStop() {
-        super.onStop()
-//        mAuth.removeAuthStateListener(SignInManager.authStateListener())
+        // TODO check user already logged in
     }
 
     private fun getComponentsFromBinding() {
         emailEditText = binding.emailEditText
         passwordEditText = binding.passwordEditText
+        // TODO passkey und google button zusammenführen
+        // TODO sign In button selber logic implementieren
         loginButton = binding.loginButton
         googleButton = binding.googleLoginButton
         facebookButton = binding.facebookLoginButton
@@ -86,7 +83,7 @@ class StartActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email: String = emailEditText.text.toString()
             val password: String = passwordEditText.text.toString()
-            SignInManager.startCredLogin(userService, email, password, login = { loginResult -> login(loginResult) })
+            SignInManager.startCredLogin(userService, email, password, this, lifecycleScope, login = { loginResult -> login(loginResult) })
         }
 
         passkeyButton.setOnClickListener {

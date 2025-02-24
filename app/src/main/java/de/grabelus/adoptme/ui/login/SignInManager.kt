@@ -25,7 +25,6 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.gson.JsonObject
 import de.grabelus.adoptme.R
 import de.grabelus.adoptme.data.Result
-import de.grabelus.adoptme.data.UserRepository
 import de.grabelus.adoptme.data.UserService
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.utils.NonceCreator
@@ -38,6 +37,13 @@ import java.util.Collections
 
 class SignInManager {
     companion object {
+
+        fun processIfUserLoggedIn() {
+            // TODO implement
+        }
+
+        // TODO startSignIn mehtoden zusammenführen
+
         fun startPassKeySignIn(userService: UserService,
                                      context: Context,
                                      scope: CoroutineScope,
@@ -51,13 +57,13 @@ class SignInManager {
                 GetCredentialRequest(
                     listOf(
                         getPublicKeyCredentialOption,
-                        getPasswordOption
+                        getPasswordOption,
                     )
                 )
             scope.launch {
                 try {
                     val result = credentialManager.getCredential(context, request)
-                    handleSignIn(userService, result, login)
+                    handleSignIn(userService, result, login, "", "")
 
                 } catch (e: GetCredentialException){
                     e.printStackTrace()
@@ -67,9 +73,34 @@ class SignInManager {
             }
         }
 
-        fun startCredLogin(userService: UserService, email: String, password: String, login: (Result<LoggedInUser>) -> Unit) {
-            // TODO custom logik
-            login.invoke(userService.login(email, password))
+        fun startCredLogin(userService: UserService, email: String, password: String,
+                           context: Context,
+                           scope: CoroutineScope,
+                           login: (Result<LoggedInUser>) -> Unit) {
+            val credentialManager = CredentialManager.create(context)
+            val getPasswordOption = GetPasswordOption()
+            val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(
+                requestJson = createPassKeyRequestJson()
+            )
+            val request =
+                GetCredentialRequest(
+                    listOf(
+                        getPublicKeyCredentialOption,
+                        getPasswordOption,
+                        getCredentialOptionsForGoogleSignIn(context)
+                    )
+                )
+            scope.launch {
+                try {
+                    val result = credentialManager.getCredential(context, request)
+                    handleSignIn(userService, result, login, email, password)
+
+                } catch (e: GetCredentialException){
+                    e.printStackTrace()
+                } catch (e: NoCredentialException) {
+                    Toast.makeText(context, R.string.no_passkey_avail, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         fun startGoogleSignIn(
@@ -81,12 +112,12 @@ class SignInManager {
             val credentialManager = CredentialManager.create(context)
 
             val request = GetCredentialRequest.Builder()
-                .addCredentialOption(getCredentialOptionsForSignIn(context))
+                .addCredentialOption(getCredentialOptionsForGoogleSignIn(context))
                 .build()
             scope.launch {
                 try {
                     val result = credentialManager.getCredential(context,request)
-                    handleSignIn(userService, result, login)
+                    handleSignIn(userService, result, login, "", "")
 
                 } catch (e: GetCredentialException){
                     e.printStackTrace()
@@ -94,20 +125,20 @@ class SignInManager {
             }
         }
 
-        // TODO automatically login user
-
-        private fun getCredentialOptionsForSignIn(context: Context): CredentialOption {
+        private fun getCredentialOptionsForGoogleSignIn(context: Context): CredentialOption {
             return GetSignInWithGoogleOption.Builder(getString(context, R.string.default_web_client_id))
                 .setNonce(NonceCreator.createNonce())
                 .build()
         }
 
-        private fun handleSignIn(userService: UserService, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit) {
+        private fun handleSignIn(userService: UserService, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit, email: String, password: String) {
             when (val credential = result.credential) {
-                // GoogleIdToken credential
                 is PasswordCredential -> {
-                    credential.password
-                    credential.id
+                    val savedPassword = credential.password
+                    val savedEMail = credential.id
+                    if (savedEMail == email && savedPassword == password) {
+                        login.invoke(userService.login(email, password))
+                    }
                     // TODO validiere
                 }
                 is PublicKeyCredential -> {
@@ -122,7 +153,7 @@ class SignInManager {
                                 val googleTokenId = googleIdTokenCredential.idToken
                                 val payload = validateGoogleIdToken(googleTokenId)
                                 if(payload != null){
-                                    login.invoke(userService.login(payload.email, payload.subject))
+                                    login.invoke(userService.loginWithUserId(payload.email, payload.subject))
                                 } else {
                                     Log.e(SignInManager::class.java.name, "Payload was null")
                                 }

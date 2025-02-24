@@ -22,11 +22,12 @@ class UserService(private val userRepository: UserRepository) {
         return userRepository.loginWithMail(email, password)
     }
 
-    fun loginWithUserId(email: String, userId: String) {
+    fun loginWithUserId(email: String, userId: String): Result<LoggedInUser> {
         val result = userRepository.login(email, userId)
         if (result is Result.Success) {
             setLoggedInUser(result.data)
         }
+        return result
     }
 
     fun logout() {
