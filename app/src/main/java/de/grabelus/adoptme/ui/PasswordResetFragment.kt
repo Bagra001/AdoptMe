@@ -1,10 +1,12 @@
 package de.grabelus.adoptme.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import de.grabelus.adoptme.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,6 +24,21 @@ class PasswordResetFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true)
+            {
+                override fun handleOnBackPressed() {
+                    backToStart()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -36,6 +53,10 @@ class PasswordResetFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_password_reset, container, false)
+    }
+
+    private fun backToStart() {
+        parentFragmentManager.beginTransaction().remove(this).commit()
     }
 
     companion object {

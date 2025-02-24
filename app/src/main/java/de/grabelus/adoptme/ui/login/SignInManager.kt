@@ -172,7 +172,7 @@ class SignInManager {
                 addProperty("rpId", "de.grabelus.adoptme")
                 addProperty("timeout", 180000)
                 addProperty("userVerification", "required")
-            }.asString
+            }.toString()
         }
     }
 }
