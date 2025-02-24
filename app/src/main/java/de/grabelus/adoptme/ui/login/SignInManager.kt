@@ -67,9 +67,9 @@ class SignInManager {
             }
         }
 
-        fun startCredLogin(userRepository: UserRepository, email: String, password: String, login: (Result<LoggedInUser>) -> Unit) {
+        fun startCredLogin(userService: UserService, email: String, password: String, login: (Result<LoggedInUser>) -> Unit) {
             // TODO custom logik
-            login.invoke(userRepository.login(email, ""))
+            login.invoke(userService.login(email, password))
         }
 
         fun startGoogleSignIn(
