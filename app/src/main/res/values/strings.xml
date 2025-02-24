@@ -37,4 +37,5 @@
     <string name="reset_password">Forgot my password…</string>
     <string name="google_loginBTN">googleLoginButton</string>
     <string name="facebook_loginBTN">facebookLoginButton</string>
+    <string name="passkey_loginBTN">passkeyLoginButton</string>
 </resources>

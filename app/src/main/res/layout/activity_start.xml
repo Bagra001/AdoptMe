@@ -146,7 +146,13 @@
                     android:textColor="@color/brandGrey" />
             </RelativeLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/google_login_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -155,20 +161,34 @@
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="@string/google_loginBTN" />
+                android:contentDescription="@string/google_loginBTN"
+                android:layout_weight="1"/>
 
-            <de.hdodenhof.circleimageview.CircleImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/facebook_login_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="8dp"
                 android:background="@color/white"
                 android:src="@drawable/facebook_logo"
                 android:stateListAnimator="@animator/smooth_shadow_button"
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="@string/facebook_loginBTN" />
+                android:contentDescription="@string/facebook_loginBTN"
+                android:layout_weight="1"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/passkey_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/passkey_icon"
+                    android:stateListAnimator="@animator/smooth_shadow_button"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/passkey_loginBTN"
+                    android:layout_weight="1"/>
+        </LinearLayout>
 
             <TextView
                 android:id="@+id/passwordResetText"
