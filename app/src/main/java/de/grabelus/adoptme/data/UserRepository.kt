@@ -1,6 +1,5 @@
 package de.grabelus.adoptme.data
 
-import com.google.firebase.auth.FirebaseUser
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.data.model.RegisterUserData
 import de.grabelus.adoptme.ui.register.RegisterResult
@@ -28,8 +27,8 @@ class UserRepository(val dataSource: UserDataSource) {
         dataSource.logout()
     }
 
-    fun login(firebaseUser: FirebaseUser): Result<LoggedInUser> {
-        val result = dataSource.login(firebaseUser.email, firebaseUser.uid)
+    fun login(email: String, userId: String): Result<LoggedInUser> {
+        val result = dataSource.login(email, userId)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
@@ -39,5 +38,9 @@ class UserRepository(val dataSource: UserDataSource) {
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
         this.user = loggedInUser
+    }
+
+    fun getUserId(email: String): String {
+        return dataSource.getUserId(email)
     }
 }

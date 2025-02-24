@@ -1,7 +1,5 @@
 package de.grabelus.adoptme.data
 
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import de.grabelus.adoptme.data.entity.User
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.data.model.RegisterUserData
@@ -30,7 +28,7 @@ class UserDataSource {
                 var user: User? = null
                 result = Result.Success(
                     LoggedInUser(
-                        user!!.id,
+                        user!!.userId,
                         user!!.forname,
                         user!!.lastname,
                         user!!.username,
@@ -51,6 +49,10 @@ class UserDataSource {
     }
 
     fun logout() {
-        Firebase.auth.signOut()
+        // TODO
+    }
+
+    fun getUserId(email: String): String {
+        return "userId";
     }
 }

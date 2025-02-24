@@ -8,15 +8,20 @@ import androidx.credentials.CredentialOption
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
+import androidx.credentials.GetPasswordOption
+import androidx.credentials.GetPublicKeyCredentialOption
+import androidx.credentials.PasswordCredential
+import androidx.credentials.PrepareGetCredentialResponse
+import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth.AuthStateListener
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
+import com.google.api.client.http.javanet.NetHttpTransport
+import com.google.api.client.json.gson.GsonFactory
+import com.google.gson.JsonObject
 import de.grabelus.adoptme.R
 import de.grabelus.adoptme.data.Result
 import de.grabelus.adoptme.data.UserRepository
@@ -24,12 +29,44 @@ import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.utils.NonceCreator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import java.security.SecureRandom
+import java.util.Base64
+import java.util.Collections
 
 
 class SignInManager {
     companion object {
-        private lateinit var authStateListener: AuthStateListener
+        suspend fun startPassKeySignIn(userRepository: UserRepository,
+                                     context: Context,
+                                     scope: CoroutineScope,
+                                     login: (Result<LoggedInUser>) -> Unit) {
+            val credentialManager = CredentialManager.create(context)
+            val getPasswordOption = GetPasswordOption()
+            val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(
+                requestJson = createPassKeyRequestJson()
+            )
+            val request =
+                GetCredentialRequest(
+                    listOf(
+                        getPublicKeyCredentialOption,
+                        getPasswordOption
+                    )
+                )
+            scope.launch {
+                try {
+                    val result = credentialManager.getCredential(context, request)
+                    handleSignIn(userRepository, result, login)
+
+                } catch (e: GetCredentialException){
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        fun startCredLogin(userRepository: UserRepository, email: String, password: String, login: (Result<LoggedInUser>) -> Unit) {
+            // TODO custom logik
+            login.invoke(userRepository.login(email, ""))
+        }
 
         fun startGoogleSignIn(
             userRepository: UserRepository,
@@ -53,21 +90,7 @@ class SignInManager {
             }
         }
 
-        fun newAuthStateListener(): AuthStateListener {
-            authStateListener = AuthStateListener { firebaseAuth ->
-                val user = firebaseAuth.currentUser
-                if (user != null) {
-                    Log.d(SignInManager::class.java.name, "onAuthStateChanged:signed_in:" + user.uid)
-                } else {
-                    Log.d(SignInManager::class.java.name, "onAuthStateChanged:signed_out")
-                }
-            }
-            return authStateListener
-        }
-
-        fun authStateListener(): AuthStateListener {
-           return authStateListener;
-        }
+        // TODO automatically login user
 
         private fun getCredentialOptionsForSignIn(context: Context): CredentialOption {
             return GetSignInWithGoogleOption.Builder(getString(context, R.string.default_web_client_id))
@@ -75,18 +98,29 @@ class SignInManager {
                 .build()
         }
 
-        private suspend fun handleSignIn(userRepository: UserRepository, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit) {
+        private fun handleSignIn(userRepository: UserRepository, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit) {
             when (val credential = result.credential) {
                 // GoogleIdToken credential
+                is PasswordCredential -> {
+                    credential.password
+                    credential.id
+                    // TODO validiere
+                }
+                is PublicKeyCredential -> {
+                    val responseJson = credential.authenticationResponseJson
+                    // TODO validiere
+                }
                 is CustomCredential -> {
                     if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                         try {
                             if(result.credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL){
-                                val user = getUserByGooleAuth(result)
-                                user?.let {
-                                    if(it.isAnonymous.not()){
-                                            login.invoke(userRepository.login(user))
-                                    }
+                                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(result.credential.data)
+                                val googleTokenId = googleIdTokenCredential.idToken
+                                val payload = validateGoogleIdToken(googleTokenId)
+                                if(payload != null){
+                                    login.invoke(userRepository.login(payload.email, payload.subject))
+                                } else {
+                                    Log.e(SignInManager::class.java.name, "Payload was null")
                                 }
                             }
                         } catch (e: GoogleIdTokenParsingException) {
@@ -102,11 +136,39 @@ class SignInManager {
             }
         }
 
-        private suspend fun getUserByGooleAuth(result: GetCredentialResponse): FirebaseUser? {
-            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(result.credential.data)
-            val googleTokenId = googleIdTokenCredential.idToken
-            val authCredential = GoogleAuthProvider.getCredential(googleTokenId,null)
-            return Firebase.auth.signInWithCredential(authCredential).await().user
+        private fun validateGoogleIdToken(idToken: String): GoogleIdToken.Payload? {
+            var payLoad: GoogleIdToken.Payload? = null
+            val verifier = GoogleIdTokenVerifier.Builder(NetHttpTransport(), GsonFactory())
+                .setAudience(Collections.singletonList(R.string.default_web_client_id.toString()))
+                .build()
+            try {
+                val googleIdToken = verifier.verify(idToken)
+                if(googleIdToken != null) {
+                    payLoad = googleIdToken.payload
+                } else {
+                    Log.e(SignInManager::class.java.name, "Invalid ID Token")
+                }
+            } catch (e: Exception) {
+                println("Error verifying ID token: ${e.message}")
+                return payLoad
+            }
+            return payLoad;
+        }
+
+        private fun createPassKeyRequestJson(): String {
+            val random = SecureRandom()
+            val challenge = ByteArray(32)
+            random.nextBytes(challenge)
+
+            val challengeBase64: String =
+                Base64.getUrlEncoder().withoutPadding().encodeToString(challenge)
+
+            return JsonObject().apply {
+                addProperty("challenge", challengeBase64)
+                addProperty("rpId", "de.grabelus.adoptme")
+                addProperty("timeout", 180000)
+                addProperty("userVerification", "required")
+            }.asString
         }
     }
 }

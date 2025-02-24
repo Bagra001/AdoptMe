@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.auth.FirebaseAuth
 import de.grabelus.adoptme.data.Result
 import de.grabelus.adoptme.data.UserDataSource
 import de.grabelus.adoptme.data.UserRepository
@@ -23,7 +22,6 @@ import io.realm.Realm
 class StartActivity : AppCompatActivity() {
 
     private lateinit var userRepository: UserRepository
-    private lateinit var mAuth: FirebaseAuth
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -49,18 +47,16 @@ class StartActivity : AppCompatActivity() {
         if (userRepository.isLoggedIn) {
             navigateToMainScreen()
         }
-
-        mAuth = FirebaseAuth.getInstance();
     }
 
     override fun onStart() {
         super.onStart()
-        mAuth.addAuthStateListener(SignInManager.newAuthStateListener())
+//        mAuth.addAuthStateListener(SignInManager.newAuthStateListener())
     }
 
     public override fun onStop() {
         super.onStop()
-        mAuth.removeAuthStateListener(SignInManager.authStateListener())
+//        mAuth.removeAuthStateListener(SignInManager.authStateListener())
     }
 
     private fun getComponentsFromBinding() {
@@ -84,8 +80,10 @@ class StartActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email: String = emailEditText.text.toString()
             val password: String = passwordEditText.text.toString()
-            // TODO implement with firebase
+            SignInManager.startCredLogin(userRepository, email, password, login = { loginResult -> login(loginResult) })
         }
+
+        // TODO add passkey button
 
         passwordResetText.setOnClickListener {
             supportFragmentManager.beginTransaction()
@@ -102,7 +100,7 @@ class StartActivity : AppCompatActivity() {
             navigateToMainScreen()
         } else {
             if (result is Result.Error) {
-                Toast.makeText(this, "Error: ${result.exception.message}", Toast.LENGTH_SHORT).show()
+                showErrorLogin()
             }
         }
     }

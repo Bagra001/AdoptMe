@@ -8,6 +8,8 @@ open class User(): RealmObject() {
     @PrimaryKey
     var id: Int = 0
     @Required
+    var userId: String = ""
+    @Required
     var password: String = ""
     @Required
     var username: String = ""
