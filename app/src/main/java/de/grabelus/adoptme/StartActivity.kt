@@ -86,11 +86,11 @@ class StartActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email: String = emailEditText.text.toString()
             val password: String = passwordEditText.text.toString()
-            SignInManager.startCredLogin(userRepository, email, password, login = { loginResult -> login(loginResult) })
+            SignInManager.startCredLogin(userService, email, password, login = { loginResult -> login(loginResult) })
         }
 
         passkeyButton.setOnClickListener {
-            SignInManager.startPassKeySignIn(userRepository,this, lifecycleScope, login = { loginResult -> login(loginResult) } )
+            SignInManager.startPassKeySignIn(userService,this, lifecycleScope, login = { loginResult -> login(loginResult) } )
         }
 
         passwordResetText.setOnClickListener {
@@ -99,7 +99,7 @@ class StartActivity : AppCompatActivity() {
         }
 
         googleButton.setOnClickListener {
-            SignInManager.startGoogleSignIn(userRepository, this, lifecycleScope, login = { loginResult -> login(loginResult) })
+            SignInManager.startGoogleSignIn(userService, this, lifecycleScope, login = { loginResult -> login(loginResult) })
         }
     }
 

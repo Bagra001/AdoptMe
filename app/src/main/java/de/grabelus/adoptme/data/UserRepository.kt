@@ -19,7 +19,7 @@ class UserRepository(val dataSource: UserDataSource) {
         return dataSource.login(email, userId)
     }
 
-    fun loginWithMail(email: String, password: String) Result<LoggedInUser> {
+    fun loginWithMail(email: String, password: String): Result<LoggedInUser> {
         return dataSource.loginWithMail(email, password)
     }
 

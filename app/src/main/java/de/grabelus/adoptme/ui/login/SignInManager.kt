@@ -26,6 +26,7 @@ import com.google.gson.JsonObject
 import de.grabelus.adoptme.R
 import de.grabelus.adoptme.data.Result
 import de.grabelus.adoptme.data.UserRepository
+import de.grabelus.adoptme.data.UserService
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.utils.NonceCreator
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +38,7 @@ import java.util.Collections
 
 class SignInManager {
     companion object {
-        fun startPassKeySignIn(userRepository: UserRepository,
+        fun startPassKeySignIn(userService: UserService,
                                      context: Context,
                                      scope: CoroutineScope,
                                      login: (Result<LoggedInUser>) -> Unit) {
@@ -56,7 +57,7 @@ class SignInManager {
             scope.launch {
                 try {
                     val result = credentialManager.getCredential(context, request)
-                    handleSignIn(userRepository, result, login)
+                    handleSignIn(userService, result, login)
 
                 } catch (e: GetCredentialException){
                     e.printStackTrace()
@@ -72,7 +73,7 @@ class SignInManager {
         }
 
         fun startGoogleSignIn(
-            userRepository: UserRepository,
+            userService: UserService,
             context: Context,
             scope: CoroutineScope,
             login: (Result<LoggedInUser>) -> Unit
@@ -85,7 +86,7 @@ class SignInManager {
             scope.launch {
                 try {
                     val result = credentialManager.getCredential(context,request)
-                    handleSignIn(userRepository, result, login)
+                    handleSignIn(userService, result, login)
 
                 } catch (e: GetCredentialException){
                     e.printStackTrace()
@@ -101,7 +102,7 @@ class SignInManager {
                 .build()
         }
 
-        private fun handleSignIn(userRepository: UserRepository, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit) {
+        private fun handleSignIn(userService: UserService, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit) {
             when (val credential = result.credential) {
                 // GoogleIdToken credential
                 is PasswordCredential -> {
@@ -121,7 +122,7 @@ class SignInManager {
                                 val googleTokenId = googleIdTokenCredential.idToken
                                 val payload = validateGoogleIdToken(googleTokenId)
                                 if(payload != null){
-                                    login.invoke(userRepository.login(payload.email, payload.subject))
+                                    login.invoke(userService.login(payload.email, payload.subject))
                                 } else {
                                     Log.e(SignInManager::class.java.name, "Payload was null")
                                 }
