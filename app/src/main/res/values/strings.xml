@@ -22,9 +22,11 @@
     <string name="action_password_reset_short">Reset password</string>
     <string name="slogan">Show me \n that life is still worth</string>
     <string name="register_text">Register and show me \n that life is still worth</string>
+    <string name="empty_login_fields">Please fill out all login fields</string>
     <string name="invalid_email">Not a valid email</string>
     <string name="empty_email">Empty email</string>
-    <string name="invalid_password">Password must be > 6 characters</string>
+    <string name="empty_password">Empty password</string>
+    <string name="invalid_password_length">Password must be > 8 characters</string>
     <string name="not_same_password">Passwords must be the same</string>
     <string name="no_passkey_avail">You have to create a passkey first</string>
     <string name="login_failed">"Login failed"</string>

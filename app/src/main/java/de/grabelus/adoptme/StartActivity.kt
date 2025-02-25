@@ -83,10 +83,40 @@ class StartActivity : AppCompatActivity() {
             }
         })
 
+        emailEditText.setOnFocusChangeListener {
+          view, focus ->
+            run {
+                // TODO test regex
+                if (!focus && emailEditText.text.isBlank()) {
+                    emailEditText.error = R.string.empty_email.toString()
+                } else {
+                    emailEditText.error = null
+                }
+            }
+        }
+
+        passwordEditText.setOnFocusChangeListener {
+                view, focus ->
+            run {
+                // TODO test regex
+                if (!focus && passwordEditText.text.isBlank()) {
+                    passwordEditText.error = R.string.empty_password.toString()
+                } else if (!focus && passwordEditText.text.length <= 8) {
+                    passwordEditText.error = R.string.invalid_password_length.toString()
+                } else {
+                    passwordEditText.error = null
+                }
+            }
+        }
+
         loginButton.setOnClickListener {
             val email: String = emailEditText.text.toString()
             val password: String = passwordEditText.text.toString()
-            SignInManager.startCredLogin(userService, email, password, login = { loginResult -> login(loginResult) })
+            if(email.isNotBlank() && password.isNotBlank()) {
+                SignInManager.startCredLogin(userService, email, password, login = { loginResult -> login(loginResult) })
+            } else {
+                Toast.makeText(this, R.string.empty_login_fields, Toast.LENGTH_SHORT).show()
+            }
         }
 
         passwordResetText.setOnClickListener {
