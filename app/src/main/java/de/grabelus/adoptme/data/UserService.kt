@@ -1,7 +1,9 @@
 package de.grabelus.adoptme.data
 
+import de.grabelus.adoptme.R
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.data.model.RegisterUserData
+import de.grabelus.adoptme.execptions.MissingInputDataException
 import de.grabelus.adoptme.ui.register.RegisterResult
 
 class UserService(private val userRepository: UserRepository) {
@@ -19,7 +21,12 @@ class UserService(private val userRepository: UserRepository) {
     }
 
     fun login(email: String, password: String): Result<LoggedInUser> {
-        return userRepository.loginWithMail(email, password)
+        var result: Result<LoggedInUser>
+        if(email.isBlank()) {
+            result = Result.Error(MissingInputDataException(R.string.empty_email.toString()))
+        }
+        result = userRepository.getUserByEMail(email)
+        return result
     }
 
     fun loginWithUserId(email: String, userId: String): Result<LoggedInUser> {

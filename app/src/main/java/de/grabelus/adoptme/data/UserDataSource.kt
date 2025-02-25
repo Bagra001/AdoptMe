@@ -1,5 +1,7 @@
 package de.grabelus.adoptme.data
 
+import de.grabelus.adoptme.data.entity.Sex
+import de.grabelus.adoptme.data.entity.Status
 import de.grabelus.adoptme.data.entity.User
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.data.model.RegisterUserData
@@ -24,7 +26,7 @@ class UserDataSource {
         // TODO check which db you should use (realm or other)
         val result: Result<LoggedInUser>
         try {
-            if(email != null) {
+            if (email != null) {
                 var user: User? = null
                 result = Result.Success(
                     LoggedInUser(
@@ -48,26 +50,22 @@ class UserDataSource {
         return result
     }
 
-    fun loginWithMail(email: String, password: String): Result<LoggedInUser> {
+    fun getUserByEMail(email: String): Result<LoggedInUser> {
         val result: Result<LoggedInUser>
         try {
-            if(email != null) {
-                var user: User? = null
-                result = Result.Success(
-                    LoggedInUser(
-                        user!!.userId,
-                        user!!.forname,
-                        user!!.lastname,
-                        user!!.username,
-                        user!!.email,
-                        user!!.sexEnum,
-                        user!!.statusEnum,
-                        user!!.verified
-                    )
+            val user: User? = null
+            result = Result.Success(
+                LoggedInUser(
+                    "userId",
+                    "Max",
+                    "Mustermann",
+                    "mmustermann",
+                    email,
+                    Sex.Male,
+                    Status.ACTIVE,
+                    true
                 )
-            } else {
-                result = Result.Error(IOException("email was empty"))
-            }
+            )
         } catch (e: Exception) {
             logger.throwing("UserDataSource", "login", e)
             return Result.Error(IOException("Error logging in", e))

@@ -156,7 +156,7 @@ tools:context=".StartActivity">
         <View
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_weight="1"/>
+            android:layout_weight="3"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/google_login_button"
@@ -183,22 +183,10 @@ tools:context=".StartActivity">
             android:contentDescription="@string/facebook_loginBTN"
             android:layout_weight="1"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/passkey_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/passkey_icon"
-            android:stateListAnimator="@animator/smooth_shadow_button"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/passkey_loginBTN"
-            android:layout_weight="1"/>
-
         <View
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_weight="1"/>
+            android:layout_weight="3"/>
 
     </LinearLayout>
 

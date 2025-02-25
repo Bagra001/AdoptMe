@@ -19,8 +19,8 @@ class UserRepository(val dataSource: UserDataSource) {
         return dataSource.login(email, userId)
     }
 
-    fun loginWithMail(email: String, password: String): Result<LoggedInUser> {
-        return dataSource.loginWithMail(email, password)
+    fun getUserByEMail(email: String): Result<LoggedInUser> {
+        return dataSource.getUserByEMail(email)
     }
 
     fun getUserId(email: String): String {

@@ -1,8 +1,8 @@
 package de.grabelus.adoptme.ui.login
 
 import android.content.Context
+import android.content.res.Resources.NotFoundException
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat.getString
 import androidx.credentials.CredentialManager
 import androidx.credentials.CredentialOption
@@ -27,6 +27,7 @@ import de.grabelus.adoptme.R
 import de.grabelus.adoptme.data.Result
 import de.grabelus.adoptme.data.UserService
 import de.grabelus.adoptme.data.model.LoggedInUser
+import de.grabelus.adoptme.execptions.CredentialsNotFoundException
 import de.grabelus.adoptme.utils.NonceCreator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -42,68 +43,12 @@ class SignInManager {
             // TODO implement
         }
 
-        // TODO startSignIn mehtoden zusammenführen
-
-        fun startPassKeySignIn(userService: UserService,
-                                     context: Context,
-                                     scope: CoroutineScope,
-                                     login: (Result<LoggedInUser>) -> Unit) {
-            val credentialManager = CredentialManager.create(context)
-            val getPasswordOption = GetPasswordOption()
-            val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(
-                requestJson = createPassKeyRequestJson()
-            )
-            val request =
-                GetCredentialRequest(
-                    listOf(
-                        getPublicKeyCredentialOption,
-                        getPasswordOption,
-                    )
-                )
-            scope.launch {
-                try {
-                    val result = credentialManager.getCredential(context, request)
-                    handleSignIn(userService, result, login, "", "")
-
-                } catch (e: GetCredentialException){
-                    e.printStackTrace()
-                } catch (e: NoCredentialException) {
-                    Toast.makeText(context, R.string.no_passkey_avail, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
         fun startCredLogin(userService: UserService, email: String, password: String,
-                           context: Context,
-                           scope: CoroutineScope,
                            login: (Result<LoggedInUser>) -> Unit) {
-            val credentialManager = CredentialManager.create(context)
-            val getPasswordOption = GetPasswordOption()
-            val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(
-                requestJson = createPassKeyRequestJson()
-            )
-            val request =
-                GetCredentialRequest(
-                    listOf(
-                        getPublicKeyCredentialOption,
-                        getPasswordOption,
-                        getCredentialOptionsForGoogleSignIn(context)
-                    )
-                )
-            scope.launch {
-                try {
-                    val result = credentialManager.getCredential(context, request)
-                    handleSignIn(userService, result, login, email, password)
-
-                } catch (e: GetCredentialException){
-                    e.printStackTrace()
-                } catch (e: NoCredentialException) {
-                    Toast.makeText(context, R.string.no_passkey_avail, Toast.LENGTH_SHORT).show()
-                }
-            }
+            login.invoke(userService.login(email, password))
         }
 
-        fun startGoogleSignIn(
+        fun startSignIn(
             userService: UserService,
             context: Context,
             scope: CoroutineScope,
@@ -113,14 +58,20 @@ class SignInManager {
 
             val request = GetCredentialRequest.Builder()
                 .addCredentialOption(getCredentialOptionsForGoogleSignIn(context))
+                .addCredentialOption(GetPasswordOption())
+                .addCredentialOption(GetPublicKeyCredentialOption(
+                    requestJson = createPassKeyRequestJson()
+                ))
                 .build()
             scope.launch {
                 try {
                     val result = credentialManager.getCredential(context,request)
-                    handleSignIn(userService, result, login, "", "")
+                    handleSignIn(userService, result, login)
 
                 } catch (e: GetCredentialException){
                     e.printStackTrace()
+                } catch (e: NoCredentialException) {
+                    login.invoke(Result.Error(CredentialsNotFoundException("No Credentials found")))
                 }
             }
         }
@@ -131,19 +82,16 @@ class SignInManager {
                 .build()
         }
 
-        private fun handleSignIn(userService: UserService, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit, email: String, password: String) {
+        private fun handleSignIn(userService: UserService, result: GetCredentialResponse, login: (Result<LoggedInUser>) -> Unit) {
             when (val credential = result.credential) {
                 is PasswordCredential -> {
                     val savedPassword = credential.password
                     val savedEMail = credential.id
-                    if (savedEMail == email && savedPassword == password) {
-                        login.invoke(userService.login(email, password))
-                    }
-                    // TODO validiere
+                    // TODO validiere und hole user
                 }
                 is PublicKeyCredential -> {
                     val responseJson = credential.authenticationResponseJson
-                    // TODO validiere
+                    // TODO validiere und hole user
                 }
                 is CustomCredential -> {
                     if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {

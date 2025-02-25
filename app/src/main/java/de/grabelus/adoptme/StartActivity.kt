@@ -1,24 +1,33 @@
 package de.grabelus.adoptme
 
 import android.content.Intent
+import android.content.res.Resources.NotFoundException
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import de.grabelus.adoptme.data.Result
 import de.grabelus.adoptme.data.UserDataSource
 import de.grabelus.adoptme.data.UserRepository
 import de.grabelus.adoptme.data.UserService
+import de.grabelus.adoptme.data.entity.Status
 import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.databinding.ActivityStartBinding
+import de.grabelus.adoptme.execptions.CredentialsNotFoundException
+import de.grabelus.adoptme.execptions.MissingInputDataException
 import de.grabelus.adoptme.ui.PasswordResetFragment
 import de.grabelus.adoptme.ui.login.SignInManager
+import de.grabelus.adoptme.ui.register.RegisterFragment
 import de.hdodenhof.circleimageview.CircleImageView
 import io.realm.Realm
+import android.content.DialogInterface
+
+
 
 class StartActivity : AppCompatActivity() {
 
@@ -30,7 +39,6 @@ class StartActivity : AppCompatActivity() {
     private lateinit var passwordResetText: TextView
     private lateinit var googleButton: CircleImageView
     private lateinit var facebookButton: CircleImageView
-    private lateinit var passkeyButton: CircleImageView
 
     private lateinit var binding: ActivityStartBinding
 
@@ -60,12 +68,9 @@ class StartActivity : AppCompatActivity() {
     private fun getComponentsFromBinding() {
         emailEditText = binding.emailEditText
         passwordEditText = binding.passwordEditText
-        // TODO passkey und google button zusammenführen
-        // TODO sign In button selber logic implementieren
         loginButton = binding.loginButton
         googleButton = binding.googleLoginButton
         facebookButton = binding.facebookLoginButton
-        passkeyButton = binding.passkeyButton
         passwordResetText = binding.passwordResetText
 
     }
@@ -83,11 +88,7 @@ class StartActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email: String = emailEditText.text.toString()
             val password: String = passwordEditText.text.toString()
-            SignInManager.startCredLogin(userService, email, password, this, lifecycleScope, login = { loginResult -> login(loginResult) })
-        }
-
-        passkeyButton.setOnClickListener {
-            SignInManager.startPassKeySignIn(userService,this, lifecycleScope, login = { loginResult -> login(loginResult) } )
+            SignInManager.startCredLogin(userService, email, password, login = { loginResult -> login(loginResult) })
         }
 
         passwordResetText.setOnClickListener {
@@ -96,26 +97,50 @@ class StartActivity : AppCompatActivity() {
         }
 
         googleButton.setOnClickListener {
-            SignInManager.startGoogleSignIn(userService, this, lifecycleScope, login = { loginResult -> login(loginResult) })
+            SignInManager.startSignIn(userService, this, lifecycleScope, login = { loginResult -> login(loginResult) })
         }
     }
 
     private fun login(result: Result<LoggedInUser>) {
         if (result is Result.Success) {
-            navigateToMainScreen()
+            when(result.data.status) {
+                Status.IN_VERIFICATION, Status.IN_REGISTRATION -> showActivationNeeded(R.string.activation_needed_title, R.string.profile_not_activated)
+                Status.ACTIVE -> navigateToMainScreen()
+                Status.INACTIVATED, Status.BLOCKED -> showActivationNeeded(R.string.reactivation_needed_title, R.string.profile_reactivation_needed)
+                Status.DELETED, Status.DELETION_REQUESTED, Status.IN_DELETION -> Toast.makeText(this, R.string.profile_deleted_message, Toast.LENGTH_SHORT).show()
+            }
         } else {
             if (result is Result.Error) {
-                showErrorLogin()
+                when(result.exception) {
+                    is CredentialsNotFoundException -> navigateToRegister()
+                    is MissingInputDataException -> showErrorLogin(result.exception.message!!)
+                    else -> showErrorLogin(R.string.login_failed.toString())
+                }
             }
         }
     }
 
-    private fun showErrorLogin() {
-        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
+    private fun showActivationNeeded(title: Int, message: Int) {
+        AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(R.string.send_activation_link) { dialog, id -> TODO() }
+            .setNegativeButton(R.string.cancel) { dialog, id -> dialog.cancel() }
+            .show()
+    }
+
+    private fun showErrorLogin(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToMainScreen() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    private fun navigateToRegister() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.start_container, RegisterFragment()).commit()
     }
 }
