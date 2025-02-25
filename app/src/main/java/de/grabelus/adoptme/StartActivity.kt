@@ -1,7 +1,6 @@
 package de.grabelus.adoptme
 
 import android.content.Intent
-import android.content.res.Resources.NotFoundException
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -25,7 +24,6 @@ import de.grabelus.adoptme.ui.login.SignInManager
 import de.grabelus.adoptme.ui.register.RegisterFragment
 import de.hdodenhof.circleimageview.CircleImageView
 import io.realm.Realm
-import android.content.DialogInterface
 
 
 

@@ -1,7 +1,6 @@
 package de.grabelus.adoptme.ui.login
 
 import android.content.Context
-import android.content.res.Resources.NotFoundException
 import android.util.Log
 import androidx.core.content.ContextCompat.getString
 import androidx.credentials.CredentialManager
