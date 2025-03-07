@@ -19,9 +19,11 @@ import de.grabelus.adoptme.data.model.LoggedInUser
 import de.grabelus.adoptme.databinding.ActivityStartBinding
 import de.grabelus.adoptme.execptions.CredentialsNotFoundException
 import de.grabelus.adoptme.execptions.MissingInputDataException
+import de.grabelus.adoptme.registration.RegistrationService
 import de.grabelus.adoptme.ui.PasswordResetFragment
 import de.grabelus.adoptme.ui.login.SignInManager
 import de.grabelus.adoptme.ui.register.RegisterFragment
+import de.grabelus.adoptme.utils.InputFieldValidator
 import de.hdodenhof.circleimageview.CircleImageView
 import io.realm.Realm
 
@@ -30,6 +32,7 @@ import io.realm.Realm
 class StartActivity : AppCompatActivity() {
 
     private lateinit var userService: UserService
+    private lateinit var registrationService: RegistrationService
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -52,6 +55,7 @@ class StartActivity : AppCompatActivity() {
         Realm.init(this) // context, usually an Activity or Application
         val dataSource = UserDataSource()
         userService = UserService(UserRepository(dataSource))
+        registrationService = RegistrationService()
 
         if (userService.isLoggedIn) {
             navigateToMainScreen()
@@ -84,27 +88,19 @@ class StartActivity : AppCompatActivity() {
         })
 
         emailEditText.setOnFocusChangeListener {
-          view, focus ->
+                _, focus ->
             run {
-                // TODO test regex
-                if (!focus && emailEditText.text.isBlank()) {
-                    emailEditText.error = R.string.empty_email.toString()
-                } else {
-                    emailEditText.error = null
+                if(!focus) {
+                    emailEditText.error = InputFieldValidator.emailValid(emailEditText.text.toString())
                 }
             }
         }
 
         passwordEditText.setOnFocusChangeListener {
-                view, focus ->
+                _, focus ->
             run {
-                // TODO test regex
-                if (!focus && passwordEditText.text.isBlank()) {
-                    passwordEditText.error = R.string.empty_password.toString()
-                } else if (!focus && passwordEditText.text.length <= 8) {
-                    passwordEditText.error = R.string.invalid_password_length.toString()
-                } else {
-                    passwordEditText.error = null
+                if(!focus) {
+                    passwordEditText.error = InputFieldValidator.passwordValid(passwordEditText.text.toString())
                 }
             }
         }
@@ -153,8 +149,13 @@ class StartActivity : AppCompatActivity() {
             .setCancelable(false)
             .setTitle(title)
             .setMessage(message)
-            .setPositiveButton(R.string.send_activation_link) { dialog, id -> TODO() }
-            .setNegativeButton(R.string.cancel) { dialog, id -> dialog.cancel() }
+            .setPositiveButton(R.string.send_activation_link) { dialog, _ ->
+                run {
+                    registrationService.resendActivationLink()
+                    dialog.cancel()
+                }
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
             .show()
     }
 

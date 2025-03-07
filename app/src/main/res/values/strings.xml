@@ -27,6 +27,7 @@
     <string name="empty_email">Empty email</string>
     <string name="empty_password">Empty password</string>
     <string name="invalid_password_length">Password must be > 8 characters</string>
+    <string name="invalid_password">Not a valid password</string>
     <string name="not_same_password">Passwords must be the same</string>
     <string name="no_passkey_avail">You have to create a passkey first</string>
     <string name="login_failed">"Login failed"</string>
