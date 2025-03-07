@@ -20,13 +20,11 @@ class UserService(private val userRepository: UserRepository) {
         return userRepository.register(RegisterUserData(email, username, password));
     }
 
-    fun login(email: String, password: String): Result<LoggedInUser> {
-        var result: Result<LoggedInUser>
+    fun getUser(email: String): Result<LoggedInUser> {
         if(email.isBlank()) {
-            result = Result.Error(MissingInputDataException(R.string.empty_email.toString()))
+            return Result.Error(MissingInputDataException(R.string.empty_email.toString()))
         }
-        result = userRepository.getUserByEMail(email)
-        return result
+        return userRepository.getUserByEMail(email)
     }
 
     fun loginWithUserId(email: String, userId: String): Result<LoggedInUser> {

@@ -44,7 +44,9 @@ class SignInManager {
 
         fun startCredLogin(userService: UserService, email: String, password: String,
                            login: (Result<LoggedInUser>) -> Unit) {
-            login.invoke(userService.login(email, password))
+            val userResult = userService.getUser(email)
+            // TODO check password and email
+            login.invoke(userResult)
         }
 
         fun startSignIn(

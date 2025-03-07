@@ -56,15 +56,14 @@ class StartActivity : AppCompatActivity() {
         val dataSource = UserDataSource()
         userService = UserService(UserRepository(dataSource))
         registrationService = RegistrationService()
-
-        if (userService.isLoggedIn) {
-            navigateToMainScreen()
-        }
     }
 
     override fun onStart() {
         super.onStart()
-        // TODO check user already logged in
+        // TODO check user already logged in google etc
+        if (userService.isLoggedIn) {
+            navigateToMainScreen()
+        }
     }
 
     private fun getComponentsFromBinding() {
