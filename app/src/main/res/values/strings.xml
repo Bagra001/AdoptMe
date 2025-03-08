@@ -12,6 +12,7 @@
     <string name="brand">adoptMe</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_name">For- and Surname</string>
+    <string name="prompt_birthDate">Birthdate</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_repeat_password">Repeat password</string>
     <string name="action_sign_in">Sign in</string>
@@ -49,4 +50,5 @@
     <string name="google_loginBTN">googleLoginButton</string>
     <string name="facebook_loginBTN">facebookLoginButton</string>
     <string name="passkey_loginBTN">passkeyLoginButton</string>
+    <string name="pick_date_hint">your birth date</string>
 </resources>

@@ -45,7 +45,7 @@
             tools:layout_editor_absoluteY="-16dp">
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -62,6 +62,27 @@
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+                <EditText
+                    android:id="@+id/birthDateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="24dp"
+                    android:alpha="0.8"
+                    android:autofillHints="@string/prompt_birthDate"
+                    android:backgroundTint="@color/brandOrange"
+                    android:hint="@string/prompt_birthDate"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:minHeight="40dp"
+                    android:textColor="@color/brandComplementary"
+                    android:textColorHint="@color/brandGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nameEditText"
+                    app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+                    tools:ignore="TextFields" />
 
             <EditText
                 android:id="@+id/emailEditText"
@@ -81,7 +102,8 @@
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/username" />
+                app:layout_constraintTop_toBottomOf="@+id/birthDateEditText"
+                app:layout_constraintBottom_toTopOf="@+id/passwordEditText" />
 
             <EditText
                 android:id="@+id/passwordEditText"
@@ -102,10 +124,11 @@
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/emailEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+                app:layout_constraintBottom_toTopOf="@+id/repeatedPasswordEditText" />
 
             <EditText
-                android:id="@+id/repeatedPassword"
+                android:id="@+id/repeatedPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -124,10 +147,10 @@
                 android:textColorHint="@color/brandGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/passwordEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
             <Button
-                android:id="@+id/register"
+                android:id="@+id/registerButton"
                 android:layout_width="165dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
@@ -143,7 +166,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
                 app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
-                app:layout_constraintTop_toBottomOf="@+id/repeatedPassword"
+                app:layout_constraintTop_toBottomOf="@+id/repeatedPasswordEditText"
                 app:layout_constraintVertical_bias="0.2" />
 
             <ProgressBar
@@ -157,8 +180,8 @@
                 android:layout_marginBottom="0dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/verticalRegisterLayout"
-                app:layout_constraintEnd_toEndOf="@+id/register"
-                app:layout_constraintStart_toStartOf="@+id/register"
+                app:layout_constraintEnd_toEndOf="@+id/registerButton"
+                app:layout_constraintStart_toStartOf="@+id/registerButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.3" />
         </LinearLayout>

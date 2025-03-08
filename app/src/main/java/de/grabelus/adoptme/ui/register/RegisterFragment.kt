@@ -1,5 +1,6 @@
 package de.grabelus.adoptme.ui.register
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
@@ -16,9 +21,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import de.grabelus.adoptme.R
 import de.grabelus.adoptme.databinding.FragmentRegisterBinding
+import java.time.Instant
+import java.time.LocalDate
+import java.time.Month
+import java.time.ZoneOffset
+import java.util.Date
 
 
 class RegisterFragment : Fragment() {
+
+    private lateinit var email: EditText
+    private lateinit var usernameEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var repeatedPasswordEditText: EditText
+    private lateinit var registerButton: Button
+    private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var birthDateEditText: EditText
 
     private lateinit var registerViewModel: RegisterViewModel
     private var _binding: FragmentRegisterBinding? = null
@@ -56,12 +74,13 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         registerViewModel = ViewModelProvider(this, RegisterViewModelFactory())[RegisterViewModel::class.java]
 
-        val email = binding.emailEditText
-        val usernameEditText = binding.username
-        val passwordEditText = binding.passwordEditText
-        val repeatedPasswordEditText = binding.repeatedPassword
-        val registerButton = binding.register
-        val loadingProgressBar = binding.registerLoading
+        email = binding.emailEditText
+        usernameEditText = binding.nameEditText
+        passwordEditText = binding.passwordEditText
+        repeatedPasswordEditText = binding.repeatedPasswordEditText
+        registerButton = binding.registerButton
+        loadingProgressBar = binding.registerLoading
+        birthDateEditText = binding.birthDateEditText!!
 
         registerViewModel.registerFormState.observe(viewLifecycleOwner,
             Observer { registerFormState ->
@@ -118,6 +137,9 @@ class RegisterFragment : Fragment() {
         }
         email.addTextChangedListener(afterTextChangedListener)
         usernameEditText.addTextChangedListener(afterTextChangedListener)
+        birthDateEditText!!.setOnClickListener {
+            showBirthDatePicker()
+        }
         passwordEditText.addTextChangedListener(afterTextChangedListener)
         repeatedPasswordEditText.addTextChangedListener(afterTextChangedListener)
         repeatedPasswordEditText.setOnEditorActionListener { _, actionId, _ ->
@@ -152,6 +174,23 @@ class RegisterFragment : Fragment() {
         } else {
             showRegisterFailed(R.string.something_went_wrong)
         }
+    }
+
+    private fun showBirthDatePicker() {
+        val datePickerDialog = DatePickerDialog(
+            context?.applicationContext ?: return,
+            { _: DatePicker?, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
+                val selectedDate =
+                    selectedDay.toString() + "/" + (selectedMonth + 1) + "/" + selectedYear
+                birthDateEditText?.setText(selectedDate)
+            },
+            1900, 0, 1
+        )
+        datePickerDialog.datePicker.maxDate = Date().time
+        datePickerDialog.datePicker.minDate = LocalDate.of(1900, Month.JANUARY, 1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toEpochSecond()
+        datePickerDialog.show()
     }
 
     private fun showRegisterFailed(@StringRes errorString: Int) {

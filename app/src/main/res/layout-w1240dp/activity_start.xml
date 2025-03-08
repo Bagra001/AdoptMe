@@ -102,7 +102,7 @@ tools:context=".StartActivity">
             android:textColorHint="@color/brandGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/nameEditText"
             android:isCredential="true"/>
 
         <Button

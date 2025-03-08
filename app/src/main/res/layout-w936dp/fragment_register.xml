@@ -54,7 +54,7 @@
                 android:gravity="center_horizontal">
 
                 <EditText
-                    android:id="@+id/username"
+                    android:id="@+id/nameEditText"
                     android:layout_width="400dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -90,7 +90,7 @@
                     android:textColorHint="@color/brandGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/username" />
+                    app:layout_constraintTop_toTopOf="@+id/nameEditText" />
 
             </LinearLayout>
 
@@ -123,7 +123,7 @@
                 app:layout_constraintTop_toTopOf="@+id/emailEditText" />
 
             <EditText
-                android:id="@+id/repeatedPassword"
+                android:id="@+id/repeatedPasswordEditText"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -147,7 +147,7 @@
         </LinearLayout>
 
             <Button
-                android:id="@+id/register"
+                android:id="@+id/registerButton"
                 android:layout_width="120dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
@@ -163,7 +163,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/verticalLoginLayout"
                 app:layout_constraintStart_toStartOf="@+id/verticalLoginLayout"
-                app:layout_constraintTop_toBottomOf="@+id/repeatedPassword"
+                app:layout_constraintTop_toBottomOf="@+id/repeatedPasswordEditText"
                 app:layout_constraintVertical_bias="0.2" />
 
             <ProgressBar
@@ -177,8 +177,8 @@
                 android:layout_marginBottom="0dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/verticalRegisterLayout"
-                app:layout_constraintEnd_toEndOf="@+id/register"
-                app:layout_constraintStart_toStartOf="@+id/register"
+                app:layout_constraintEnd_toEndOf="@+id/registerButton"
+                app:layout_constraintStart_toStartOf="@+id/registerButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.3" />
         </LinearLayout>
